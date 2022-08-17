@@ -1,0 +1,36 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ZuiApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">#fbfbfd</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray_800</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="actionBarSize">52dp</item>
+
+        <item name="android:dialogTheme">@style/Theme.ZuiDialog</item>
+        <item name="dialogTheme">@style/Theme.ZuiDialog</item>
+    </style>
+
+    <style name="Theme.ZuiApp" parent="Base.Theme.ZuiApp">
+
+    </style>
+
+    <style name="Theme.ZuiDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorPrimary">@color/blue</item>
+
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/WindowIOSAnimation</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="dialogCornerRadius">@dimen/dp_10</item>
+
+    </style>
+
+</resources>
