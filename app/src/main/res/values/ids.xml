@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="keyboard_number" type="id" />
+    <item name="keyboard_number_only" type="id" />
+
+</resources>

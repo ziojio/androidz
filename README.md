@@ -1,2 +1,2 @@
-# zuiapp
-Android UI
+# Androidz
+Android App

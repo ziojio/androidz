@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View style="@style/HorizontalLineStyle" />
+
+    <RadioGroup
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:checkedButton="@id/home"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <RadioButton
+            android:id="@+id/home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_home"
+            android:drawableTint="@color/selector_home_nav"
+            android:gravity="center"
+            android:text="@string/home"
+            android:textColor="@color/selector_home_nav"
+            android:textSize="@dimen/sp_10" />
+
+        <RadioButton
+            android:id="@+id/function"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_dashboard"
+            android:drawableTint="@color/selector_home_nav"
+            android:gravity="center"
+            android:text="@string/function"
+            android:textColor="@color/selector_home_nav"
+            android:textSize="@dimen/sp_10" />
+    </RadioGroup>
+</LinearLayout>

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@android:color/white"
+    android:elevation="5dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_100">
+
+        <ImageView
+            android:id="@+id/input_close"
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:padding="10dp"
+            android:src="@drawable/input_down" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:divider="@drawable/input_char_divider"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/input_q"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="q"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_w"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="w"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_e"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="e"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_r"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="r"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_t"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="t"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_y"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="y"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_u"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="u"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_i"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="i"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_o"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="o"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_p"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="p"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:divider="@drawable/input_char_divider"
+        android:showDividers="middle">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:id="@+id/input_a"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="a"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_s"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="s"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_d"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="d"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_f"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="f"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_g"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="g"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_h"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="h"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_j"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="j"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_k"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="k"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_l"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="l"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:divider="@drawable/input_char_divider"
+        android:showDividers="middle">
+
+        <FrameLayout
+            android:id="@+id/input_upper"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1.2"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/input_action_bg">
+
+            <ImageView
+                android:id="@+id/input_upper_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/input_uppercase" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/input_z"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="z"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_x"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="x"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_c"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="c"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_v"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="v"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_b"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="b"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_n"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="n"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/input_m"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:text="m"
+            android:textSize="20sp" />
+
+        <FrameLayout
+            android:id="@+id/input_delete"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1.2"
+            android:background="@drawable/input_action_bg">
+
+            <ImageView
+                android:id="@+id/input_delete_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/input_backspace" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/input_123"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_action_bg"
+            android:gravity="center"
+            android:text="123"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/input_space"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:layout_weight="2"
+            android:background="@drawable/input_char_bg"
+            android:gravity="center"
+            android:src="@drawable/input_space" />
+
+        <TextView
+            android:id="@+id/input_linebreak"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_action_bg"
+            android:gravity="center"
+            android:text="换行"
+            android:textSize="17sp" />
+    </LinearLayout>
+</LinearLayout>

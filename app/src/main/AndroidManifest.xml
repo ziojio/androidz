@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!-- Include "neverForLocation" only if you can strongly assert that
+             your app never derives physical location from Bluetooth scan results. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+
+    <application
+        android:name="com.example.demo.UIApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.UIApp"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:supportsRtl"
+        tools:targetApi="s">
+
+        <activity
+            android:name="com.example.demo.ui.main.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.demo.web.WebActivity"
+            android:exported="true">
+            <intent-filter>
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.demo.ui.base.MultiFragmentActivity" />
+        <activity android:name="com.example.demo.ui.activity.DataBaseActivity" />
+        <activity android:name="com.example.demo.ui.activity.RxJavaActivity" />
+        <activity android:name="com.example.demo.ui.activity.AnimationActivity" />
+        <activity android:name="com.example.demo.ui.activity.WebSocketActivity" />
+        <!-- <activity android:name="com.example.demo.ui.activity.WaterMarkActivity" /> -->
+        <activity android:name="com.example.demo.ui.activity.AidlActivity" />
+
+        <activity android:name="com.example.demo.ui.camera.TakePictureActivity" />
+        <activity android:name="com.example.demo.ui.camera.TakeVideoActivity" />
+        <activity android:name="com.example.demo.ui.camera.CameraActivity" />
+        <activity android:name="com.example.demo.ui.camera.Camera2Activity" />
+        <activity android:name="com.example.demo.ui.camera.AudioActivity" />
+        <activity android:name="com.example.demo.ui.bluetooth.BluetoothActivity" />
+        <activity android:name="com.example.demo.ui.bluetooth.BluetoothLeActivity" />
+        <activity android:name="com.example.demo.ui.databinding.DataBindingActivity" />
+        <activity android:name="com.example.demo.ui.http.HttpActivity" />
+        <activity android:name="com.example.demo.ui.edit.EditActivity" />
+        <activity android:name="com.example.demo.ui.paging.Paging3Activity" />
+        <activity android:name="com.example.demo.ui.ktx.KotlinActivity" />
+
+        <service android:name="com.example.demo.service.AidlService" />
+        <service
+            android:name="com.example.demo.service.FastInputIME"
+            android:exported="true"
+            android:label="FastInputIME"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/input_method" />
+        </service>
+
+    </application>
+
+</manifest>

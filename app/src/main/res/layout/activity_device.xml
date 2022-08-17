@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.example.demo.widget.TitleBar
+            android:id="@+id/titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:leftVisible="false"
+            app:title="Function" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:dividerDrawable="@drawable/divider_space_20dp"
+            app:flexWrap="wrap"
+            app:showDivider="middle">
+
+            <Button
+                android:id="@+id/datebase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="datebase" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:dividerDrawable="@drawable/divider_space_20dp"
+            app:flexWrap="wrap"
+            app:showDivider="middle">
+
+            <Button
+                android:id="@+id/bluetooth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bluetooth" />
+
+            <Button
+                android:id="@+id/bluetooth_le"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bluetooth le" />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/border"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:dividerDrawable="@drawable/divider_space_20dp"
+            app:flexWrap="wrap"
+            app:showDivider="middle">
+
+            <Button
+                android:id="@+id/camerax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="camerax" />
+
+            <Button
+                android:id="@+id/camera2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="camera2" />
+
+            <Button
+                android:id="@+id/camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="camera" />
+
+            <Button
+                android:id="@+id/video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="video" />
+
+            <Button
+                android:id="@+id/audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="audio" />
+        </com.google.android.flexbox.FlexboxLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DrawableTextView">
+        <attr name="drawableSize" format="dimension" />
+    </declare-styleable>
+
+    <!-- 按比例显示的 FrameLayout -->
+    <declare-styleable name="RatioFrameLayout">
+        <!-- 宽高比例 -->
+        <attr name="ratio" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="TitleBar">
+        <attr name="title" format="string" />
+        <attr name="rightText" format="string" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="leftText" format="string" />
+        <attr name="leftIcon" format="reference" />
+        <attr name="leftVisible" format="boolean" />
+        <attr name="lineVisible" format="boolean" />
+        <attr name="lineColor" format="color" />
+        <attr name="lineSize" format="dimension" />
+    </declare-styleable>
+
+</resources>

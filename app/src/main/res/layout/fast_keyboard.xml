@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="250dp"
+    android:layout_gravity="bottom"
+    android:paddingVertical="8dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.example.demo.ui.edit.FastKeyboardView
+        android:id="@+id/keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/keyboard_blue"
+        android:keyTextColor="@color/blue"
+        android:keyTextSize="20sp"
+        android:shadowColor="@color/white"
+        android:shadowRadius="0" />
+</LinearLayout>
