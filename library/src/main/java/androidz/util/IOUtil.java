@@ -59,6 +59,16 @@ public class IOUtil {
         return false;
     }
 
+    public static void close(Closeable close) {
+        if (close != null) {
+            try {
+                close.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void closeQuiet(Closeable close) {
         if (close != null) {
             try {

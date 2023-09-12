@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 public class ApplicationInstance implements ViewModelStoreOwner {
 
+    private ViewModelStore mViewModelStore;
+
     private static final ApplicationInstance sInstance = new ApplicationInstance();
 
     public static ApplicationInstance getInstance() {
         return sInstance;
     }
-
-    private ViewModelStore mViewModelStore;
 
     @NonNull
     @Override

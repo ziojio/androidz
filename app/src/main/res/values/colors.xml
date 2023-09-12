@@ -9,4 +9,6 @@
     <color name="primaryTextColor">#FF000000</color>
     <color name="secondaryTextColor">#FFfafafa</color>
 
+    <color name="common_line_color">#FFcccccc</color>
+
 </resources>

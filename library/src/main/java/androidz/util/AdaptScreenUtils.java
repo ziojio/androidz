@@ -3,12 +3,11 @@ package androidz.util;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
-import androidx.annotation.NonNull;
-import androidz.Androidz;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * <pre>

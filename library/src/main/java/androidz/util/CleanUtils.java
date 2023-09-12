@@ -6,8 +6,6 @@ import android.os.Environment;
 
 import java.io.File;
 
-import androidz.Androidz;
-
 import static androidz.util.FileUtil.delete;
 
 /**

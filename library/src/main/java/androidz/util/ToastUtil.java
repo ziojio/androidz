@@ -4,8 +4,6 @@ import android.widget.Toast;
 
 import java.lang.ref.SoftReference;
 
-import androidz.Androidz;
-
 public class ToastUtil {
 
     // 避免多个连续不停显示

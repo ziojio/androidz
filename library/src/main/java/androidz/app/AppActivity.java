@@ -8,11 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import androidz.action.ClickAction;
 import androidz.action.HandlerAction;
 
-public class AppActivity extends AppCompatActivity implements HandlerAction, ClickAction {
+public class AppActivity extends AppCompatActivity implements HandlerAction {
 
     /**
      * @see #setContentView
@@ -31,7 +29,7 @@ public class AppActivity extends AppCompatActivity implements HandlerAction, Cli
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         removeCallbacks();
     }

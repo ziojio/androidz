@@ -21,14 +21,3 @@
 #-renamesourcefileattribute SourceFile
 
 # A typical library
--keep public class androidz.** {
-    public protected *;
-}
-
--keep public interface androidz.** {*;}
-
--keepparameternames
--renamesourcefileattribute SourceFile
--keepattributes Signature,Exceptions,*Annotation*,
-                InnerClasses,PermittedSubclasses,EnclosingMethod,
-                Deprecated,SourceFile,LineNumberTable

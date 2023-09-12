@@ -6,5 +6,13 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
 
+    <!-- 弹窗的圆角大小 -->
+    <dimen name="dialog_corner_radius">10dp</dimen>
+    <!-- 按钮的圆形圆角大小 -->
+    <dimen name="button_circle_radius">999dp</dimen>
 
+    <!-- 矢量图标的默认大小 -->
+    <dimen name="common_icon_size">@dimen/dp_24</dimen>
+    <!-- 分割线大小 -->
+    <dimen name="common_line_size">1px</dimen>
 </resources>

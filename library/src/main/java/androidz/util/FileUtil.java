@@ -14,8 +14,6 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import androidz.Androidz;
-
 public class FileUtil {
 
     private static boolean isBlank(String s) {

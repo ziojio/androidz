@@ -6,6 +6,7 @@
     android:layout_gravity="center"
     android:minWidth="@dimen/dp_200"
     app:cardCornerRadius="?attr/dialogCornerRadius"
+    app:cardElevation="0px"
     app:contentPadding="@dimen/dp_20">
 
     <LinearLayout

@@ -1,11 +1,9 @@
-package androidz;
+package androidz.util;
 
 import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-
-import androidz.util.AppUtil;
 
 public class Androidz {
 
@@ -14,10 +12,9 @@ public class Androidz {
 
     public static void initialize(@NonNull Context context) {
         if (sApp == null) {
-            Application application = (Application) context.getApplicationContext();
-            sApp = application;
-            ActivityStackManager.getInstance().register(application);
-            setDebug(AppUtil.isDebuggable(application));
+            sApp = (Application) context.getApplicationContext();
+            ActivityStackManager.getInstance().register(sApp);
+            setDebuggable(AppUtil.isDebuggable(sApp));
         }
     }
 
@@ -28,11 +25,11 @@ public class Androidz {
         throw new IllegalStateException("Androidz must be initialized");
     }
 
-    public static boolean isDebug() {
+    public static boolean isDebuggable() {
         return sDebug;
     }
 
-    public static void setDebug(boolean debug) {
+    public static void setDebuggable(boolean debug) {
         if (sDebug != debug) {
             sDebug = debug;
         }

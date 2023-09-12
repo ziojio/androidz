@@ -1,12 +1,12 @@
-package androidz;
+package androidz.util;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-import androidx.startup.Initializer;
-
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.startup.Initializer;
 
 public class AndroidzInitializer implements Initializer<AndroidzInitializer> {
 

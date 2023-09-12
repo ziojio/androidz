@@ -5,13 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidz.widget.TitleBar
-        android:id="@+id/titlebar"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        app:leftVisible="false"
-        app:lineVisible="true"
-        app:title="AndroidZ" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="AndroidZ" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_line_size"
+        android:background="@color/common_line_color" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
