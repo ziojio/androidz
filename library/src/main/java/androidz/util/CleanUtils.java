@@ -6,12 +6,11 @@ import android.os.Environment;
 
 import java.io.File;
 
-import static androidz.util.FileUtil.delete;
-
 /**
  * <pre>
  *     author: Blankj
  *     blog  : http://blankj.com
+ *     time  : 2016/09/27
  *     desc  : utils about clean
  * </pre>
  */
@@ -24,25 +23,31 @@ public final class CleanUtils {
     /**
      * Clean the internal cache.
      * <p>directory: /data/data/package/cache</p>
+     *
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanInternalCache() {
-        return delete(Androidz.getApp().getCacheDir());
+        return FileUtil.deleteAllInDir(Utils.getApp().getCacheDir());
     }
 
     /**
      * Clean the internal files.
      * <p>directory: /data/data/package/files</p>
+     *
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanInternalFiles() {
-        return delete(Androidz.getApp().getFilesDir());
+        return FileUtil.deleteAllInDir(Utils.getApp().getFilesDir());
     }
 
     /**
      * Clean the internal databases.
      * <p>directory: /data/data/package/databases</p>
+     *
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanInternalDbs() {
-        return delete(new File(Androidz.getApp().getFilesDir().getParent(), "databases"));
+        return FileUtil.deleteAllInDir(new File(Utils.getApp().getFilesDir().getParent(), "databases"));
     }
 
     /**
@@ -50,40 +55,46 @@ public final class CleanUtils {
      * <p>directory: /data/data/package/databases/dbName</p>
      *
      * @param dbName The name of database.
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanInternalDbByName(final String dbName) {
-        return Androidz.getApp().deleteDatabase(dbName);
+        return Utils.getApp().deleteDatabase(dbName);
     }
 
     /**
      * Clean the internal shared preferences.
      * <p>directory: /data/data/package/shared_prefs</p>
+     *
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanInternalSp() {
-        return delete(new File(Androidz.getApp().getFilesDir().getParent(), "shared_prefs"));
+        return FileUtil.deleteAllInDir(new File(Utils.getApp().getFilesDir().getParent(), "shared_prefs"));
     }
 
     /**
      * Clean the external cache.
      * <p>directory: /storage/emulated/0/android/data/package/cache</p>
+     *
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanExternalCache() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                && delete(Androidz.getApp().getExternalCacheDir());
+                && FileUtil.deleteAllInDir(Utils.getApp().getExternalCacheDir());
     }
 
     /**
      * Clean the custom directory.
      *
      * @param dirPath The path of directory.
+     * @return {@code true}: success<br>{@code false}: fail
      */
     public static boolean cleanCustomDir(final String dirPath) {
-        if (dirPath == null || dirPath.isBlank()) return false;
-        return delete(new File(dirPath));
+        return FileUtil.deleteAllInDir(FileUtil.getFileByPath(dirPath));
     }
 
     public static void cleanAppUserData() {
-        ActivityManager am = (ActivityManager) Androidz.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
+        //noinspection ConstantConditions
         am.clearApplicationUserData();
     }
 }

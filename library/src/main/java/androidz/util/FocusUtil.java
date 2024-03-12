@@ -1,7 +1,8 @@
 package androidz.util;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +25,16 @@ public class FocusUtil {
         });
     }
 
-    public static void clearFocus(Context context) {
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            if (activity.getCurrentFocus() != null && activity.getCurrentFocus().getWindowToken() != null) {
-                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null && imm.isActive()) {
-                    clearFocus(activity.getCurrentFocus());
-                }
+    public static void clearFocus(@NonNull Activity activity) {
+        if (activity.getCurrentFocus() != null && activity.getCurrentFocus().getWindowToken() != null) {
+            InputMethodManager imm = getSystemService(activity, InputMethodManager.class);
+            if (imm != null && imm.isActive()) {
+                clearFocus(activity.getCurrentFocus());
             }
         }
     }
 
-    private static void focusParent(View view) {
+    private static void focusParent(@NonNull View view) {
         if (view.getParent() instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

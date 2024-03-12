@@ -13,16 +13,16 @@ import androidx.annotation.NonNull;
 import static androidz.util.Androidz.isDebuggable;
 
 /**
- * Activity管理
+ * Activity 管理
  */
 public class ActivityStackManager implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = "ActivityStackManager";
 
-    private final ArrayDeque<Activity> stack;
+    private final ArrayDeque<Activity> stack = new ArrayDeque<>();
+
     private Application application;
 
     private ActivityStackManager() {
-        stack = new ArrayDeque<>();
     }
 
     private static final class Instance {
@@ -33,7 +33,7 @@ public class ActivityStackManager implements Application.ActivityLifecycleCallba
         return Instance.sInstance;
     }
 
-    public void register(@NonNull Application app) {
+    public synchronized void register(@NonNull Application app) {
         if (application != null) {
             throw new IllegalStateException("ActivityStackManager already registered!");
         }
@@ -41,7 +41,7 @@ public class ActivityStackManager implements Application.ActivityLifecycleCallba
         app.registerActivityLifecycleCallbacks(this);
     }
 
-    public void unregister() {
+    public synchronized void unregister() {
         if (application != null) {
             application.unregisterActivityLifecycleCallbacks(this);
             stack.clear();

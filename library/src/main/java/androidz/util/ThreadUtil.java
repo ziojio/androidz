@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadUtil {
-
     private static final String TAG = "ThreadUtil";
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
@@ -48,7 +47,7 @@ public class ThreadUtil {
         getExecutor().execute(runnable);
     }
 
-    public static ThreadPoolExecutorUtil getExecutor() {
+    public static ThreadPoolExecutor getExecutor() {
         if (sExecutor == null) {
             synchronized (ThreadUtil.class) {
                 if (sExecutor == null) {

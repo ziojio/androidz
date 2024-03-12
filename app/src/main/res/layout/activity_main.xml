@@ -32,12 +32,6 @@
             android:text="execFunction" />
 
         <Button
-            android:id="@+id/showFunction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="showFunction" />
-
-        <Button
             android:id="@+id/openDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,31 +39,10 @@
             android:text="openDialog" />
 
         <Button
-            android:id="@+id/openUrl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="openUrl" />
-
-        <Button
             android:id="@+id/network"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="network" />
     </com.google.android.flexbox.FlexboxLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_8"
-        android:text="listview" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:choiceMode="multipleChoice"
-        android:divider="@drawable/divider_line" />
 
 </LinearLayout>

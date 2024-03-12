@@ -1,22 +1,20 @@
 package androidz.util;
 
-import android.content.Context;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
-
-    private final GestureDetector gestureDetector;
-
-    public OnSwipeTouchListener(Context context) {
-        gestureDetector = new GestureDetector(context, new GestureListener());
-    }
+    private GestureDetector gestureDetector;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (gestureDetector == null) {
+            gestureDetector = new GestureDetector(v.getContext(), new GestureListener());
+        }
         return gestureDetector.onTouchEvent(event);
     }
 
@@ -26,12 +24,12 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
         @Override
-        public boolean onDown(MotionEvent e) {
+        public boolean onDown(@NonNull MotionEvent e) {
             return true;
         }
 
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
             boolean result = false;
             try {
                 float diffY = e2.getY() - e1.getY();
@@ -53,8 +51,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                     }
                     result = true;
                 }
-            } catch (Exception exception) {
-                exception.printStackTrace();
+            } catch (Exception ignored) {
             }
             return result;
         }

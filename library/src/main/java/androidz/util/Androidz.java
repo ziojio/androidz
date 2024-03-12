@@ -13,11 +13,17 @@ public class Androidz {
     public static void initialize(@NonNull Context context) {
         if (sApp == null) {
             sApp = (Application) context.getApplicationContext();
-            ActivityStackManager.getInstance().register(sApp);
-            setDebuggable(AppUtil.isDebuggable(sApp));
+
+            boolean debuggable = AppUtil.isDebuggable(sApp);
+            setDebuggable(debuggable);
+
+            if (debuggable) {
+                ActivityStackManager.getInstance().register(sApp);
+            }
         }
     }
 
+    @NonNull
     public static Application getApp() {
         if (sApp != null) {
             return sApp;

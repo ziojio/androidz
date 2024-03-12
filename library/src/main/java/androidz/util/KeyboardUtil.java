@@ -1,5 +1,8 @@
 package androidz.util;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+import static java.util.Objects.requireNonNull;
+
 import android.app.Activity;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -9,8 +12,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -29,7 +30,8 @@ public class KeyboardUtil {
                 return;
             }
         }
-        getInputMethodManager(view).showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        InputMethodManager manager = requireNonNull(getSystemService(view.getContext(), InputMethodManager.class));
+        manager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
     public static void requestFocusAndShowKeyboard(@NonNull final View view) {
@@ -53,22 +55,17 @@ public class KeyboardUtil {
                 return;
             }
         }
-        InputMethodManager imm = getInputMethodManager(view);
+        InputMethodManager imm = getSystemService(view.getContext(), InputMethodManager.class);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
-
-    @Nullable
-    private static InputMethodManager getInputMethodManager(@NonNull View view) {
-        return ContextCompat.getSystemService(view.getContext(), InputMethodManager.class);
     }
 
     /**
      * 判断软键盘是否可见
      * 默认软键盘最小高度为 200
      */
-    public static boolean isKeyboardVisible(Activity activity) {
+    public static boolean isKeyboardVisible(@NonNull Activity activity) {
         return isKeyboardVisible(activity, 200);
     }
 
@@ -78,11 +75,11 @@ public class KeyboardUtil {
      * @param activity             activity
      * @param minHeightOfSoftInput 软键盘最小高度
      */
-    public static boolean isKeyboardVisible(Activity activity, int minHeightOfSoftInput) {
+    public static boolean isKeyboardVisible(@NonNull Activity activity, int minHeightOfSoftInput) {
         return getContentViewInvisibleHeight(activity) >= minHeightOfSoftInput;
     }
 
-    public static int getContentViewInvisibleHeight(Activity activity) {
+    public static int getContentViewInvisibleHeight(@NonNull Activity activity) {
         final FrameLayout contentView = activity.findViewById(android.R.id.content);
         final View contentViewChild = contentView.getChildAt(0);
         final Rect outRect = new Rect();
@@ -97,7 +94,7 @@ public class KeyboardUtil {
      *
      * @param focusView 聚焦的控件
      */
-    public static void clickBlankArea2HideSoftInput(MotionEvent ev, View focusView) {
+    public static void clickBlankArea2HideSoftInput(@NonNull MotionEvent ev, @NonNull View focusView) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             if (isShouldHideKeyboard(focusView, ev)) {
                 hideKeyboard(focusView);
@@ -108,7 +105,7 @@ public class KeyboardUtil {
     /**
      * 根据 EditText 所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘
      */
-    private static boolean isShouldHideKeyboard(View v, MotionEvent event) {
+    private static boolean isShouldHideKeyboard(@NonNull View v, @NonNull MotionEvent event) {
         if (v instanceof EditText) {
             int[] l = {0, 0};
             v.getLocationInWindow(l);

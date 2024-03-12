@@ -1,47 +1,20 @@
-package demo.ui;
+package demo;
 
-import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.NetworkInterface;
-import java.util.Collections;
-import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidz.app.AppActivity;
-import androidz.app.LoadingDialog;
-import androidz.app.LoadingDialogFragment;
 import androidz.util.OnDebouncingClickListener;
-import androidz.util.ToastUtil;
-import demo.R;
 import demo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppActivity {
@@ -56,138 +29,28 @@ public class MainActivity extends AppActivity {
 
         binding.execFunction.setOnClickListener((OnDebouncingClickListener) v -> {
             Log.d(TAG, "execFunction");
-        });
-
-        binding.showFunction.setOnClickListener(v -> {
-            Log.d(TAG, "showFunction");
-
             showDisplay();
         });
         binding.openDialog.setOnClickListener(v -> {
             Log.d(TAG, "openDialog");
-
-            new AlertDialog.Builder(this, 0)
-                    .setTitle("Title")
-                    .setMessage("AlertDialog")
+            new AlertDialog.Builder(this)
+                    .setTitle("AlertDialog")
+                    .setMessage("This is AlertDialog")
                     .setCancelable(true)
-                    .setPositiveButton("a", (dialog12, which) -> {
-                        new LoadingDialog(this).show();
+                    .setPositiveButton("LoadingDialog", (dialog12, which) -> {
+                        new ExampleDialog(this).show();
                     })
-                    .setNegativeButton("b", (dialog1, which) -> {
-                        new LoadingDialogFragment().show(getSupportFragmentManager(), null);
-                    })
-                    .setOnCancelListener(dialog -> {
-
+                    .setNegativeButton("LoadingDialogFragment", (dialog1, which) -> {
+                        new ExampleDialogFragment().show(getSupportFragmentManager(), null);
                     })
                     .show();
         });
-        binding.openUrl.setOnClickListener(v -> {
-            Log.d(TAG, "openUrl");
-
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://hummer.didi.cn/assets/test.html"));
-            try {
-                startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                ToastUtil.showToast(e.getMessage());
-            }
-        });
         binding.network.setOnClickListener(v -> {
             Log.d(TAG, "network");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (checkSelfPermission(Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, 1);
-                    return;
-                }
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                    return;
-                } else if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION}, 3);
-                    return;
-                }
-            }
-            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            Log.d(TAG, "wifiInfo: " + wifiInfo);
-            Log.d(TAG, "IpAddress: " + Formatter.formatIpAddress(wifiInfo.getIpAddress()));
-            // Log.d(TAG, "getWifiMacAddress: " + getWifiMacAddress());
-            Log.d(TAG, "getMacFromHardware: " + getMacFromHardware());
-            Log.d(TAG, "MacAddress: " + wifiInfo.getMacAddress());
-
-            Log.d(TAG, "wifiName: " + wifiInfo.getSSID());
-            Log.d(TAG, "wifiMac: " + wifiInfo.getBSSID());
         });
-
-        MAdapter adapter = new MAdapter(this);
-        binding.listView.setAdapter(adapter);
-        binding.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemClick: " + position);
-                Log.d(TAG, "getCheckedItemPosition: " + binding.listView.getCheckedItemPosition());
-                Log.d(TAG, "getCheckedItemPositions: " + binding.listView.getCheckedItemPositions());
-                ToastUtil.showToast("onItemClick position " + position);
-            }
-        });
-        binding.listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemSelected: " + position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.d(TAG, "onNothingSelected");
-            }
-        });
-        binding.listView.setVisibility(View.GONE);
     }
 
-    public static String getMacFromHardware() {
-        try {
-            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface nif : all) {
-                if (!nif.getName().equalsIgnoreCase("wlan0"))
-                    continue;
-                byte[] macBytes = nif.getHardwareAddress();
-                if (macBytes == null) return "";
-                StringBuilder res1 = new StringBuilder();
-                for (Byte b : macBytes) {
-                    res1.append(String.format("%02X:", b));
-                }
-                if (!TextUtils.isEmpty(res1)) {
-                    res1.deleteCharAt(res1.length() - 1);
-                }
-                return res1.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "";
-    }
-
-    public static String getWifiMacAddress() {
-        String mac = "";
-        try {
-            InputStream inputStream = new FileInputStream("/sys/class/net/wlan0/address");
-            InputStreamReader reader = new InputStreamReader(inputStream);
-            BufferedReader br = new BufferedReader(reader);
-            mac = br.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return mac;
-    }
-
-    void regInternet() {
+    void registerDefaultNetworkCallback() {
         ConnectivityManager c = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             c.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
@@ -302,21 +165,6 @@ public class MainActivity extends AppActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Log.d(TAG, "--------------------------------------------------------");
             Log.d(TAG, "getCurrentWindowMetrics: " + wm.getCurrentWindowMetrics().getBounds());
-        }
-    }
-
-    static class MAdapter extends ArrayAdapter<String> {
-        final String[] strings = {"Aaaa", "Bbbb", "Cccc"};
-
-        public MAdapter(@NonNull Context context) {
-            super(context, R.layout.item_selected2);
-            addAll(strings);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            return super.getView(position, convertView, parent);
         }
     }
 

@@ -14,6 +14,9 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class FileUtil {
 
     private static boolean isBlank(String s) {
@@ -23,6 +26,7 @@ public class FileUtil {
     /**
      * 根据文件路径获取文件
      */
+    @Nullable
     public static File getFileByPath(String filePath) {
         return isBlank(filePath) ? null : new File(filePath);
     }
@@ -222,6 +226,17 @@ public class FileUtil {
         return file != null && (!file.exists() || file.isFile() && file.delete());
     }
 
+    public static boolean deleteAllInDir(final File dir) {
+        return deleteFilesInDirWithFilter(dir, pathname -> true);
+    }
+
+    public static boolean deleteFilesInDir(final File dir) {
+        return deleteFilesInDirWithFilter(dir, File::isFile);
+    }
+
+    /**
+     * Delete all files that satisfy the filter in directory.
+     */
     public static boolean deleteFilesInDirWithFilter(File dir, FileFilter filter) {
         if (dir == null || filter == null) return false;
         // dir doesn't exist then return true
@@ -243,31 +258,33 @@ public class FileUtil {
         return true;
     }
 
-    public static byte[] getFileMD5(String filePath) {
-        return getFileMD5(getFileByPath(filePath));
-    }
-
-    public static byte[] getFileMD5(File file) {
+    @Nullable
+    public static byte[] getFileMD5(@NonNull String filePath) {
+        File file = getFileByPath(filePath);
         if (file == null) {
             return null;
         }
-        DigestInputStream dis = null;
+        return getFileMD5(file);
+    }
+
+    @Nullable
+    public static byte[] getFileMD5(@NonNull File file) {
+        MessageDigest md;
         try {
-            FileInputStream fis = new FileInputStream(file);
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            dis = new DigestInputStream(fis, md);
-            byte[] buffer = new byte[1024 * 256];
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        try (DigestInputStream dis = new DigestInputStream(new FileInputStream(file), md)) {
+            byte[] buffer = new byte[10240];
             while (true) {
                 if (!(dis.read(buffer) > 0)) {
                     break;
                 }
             }
-            md = dis.getMessageDigest();
-            return md.digest();
-        } catch (NoSuchAlgorithmException | IOException e) {
+            return dis.getMessageDigest().digest();
+        } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            IOUtil.closeQuiet(dis);
         }
         return null;
     }

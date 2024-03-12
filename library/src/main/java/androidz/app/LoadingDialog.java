@@ -8,21 +8,26 @@ import android.widget.TextView;
 
 import com.ziojio.androidz.R;
 
-import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDialog;
+import androidx.core.content.ContextCompat;
 
 public class LoadingDialog extends AppCompatDialog {
 
     public LoadingDialog(Context context) {
         super(context);
+        create();
     }
 
     public LoadingDialog(Context context, int theme) {
         super(context, theme);
+        create();
     }
 
     protected LoadingDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        create();
     }
 
     @Override
@@ -38,10 +43,18 @@ public class LoadingDialog extends AppCompatDialog {
         }
     }
 
-    public void setProgressColor(@ColorInt int progressColor) {
+    public void setMessage(@StringRes int resId) {
+        setMessage(getContext().getText(resId));
+    }
+
+    public void setProgressColor(ColorStateList colorStateList) {
         ProgressBar progressBar = findViewById(R.id.loading_progress_bar);
-        if (progressBar != null) {
-            progressBar.setIndeterminateTintList(ColorStateList.valueOf(progressColor));
+        if (progressBar != null && colorStateList != null) {
+            progressBar.setIndeterminateTintList(colorStateList);
         }
+    }
+
+    public void setProgressColor(@ColorRes int resId) {
+        setProgressColor(ContextCompat.getColorStateList(getContext(), resId));
     }
 }

@@ -1,5 +1,7 @@
 package androidz.util;
 
+import androidx.annotation.NonNull;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,17 +17,18 @@ public class TimeUtil {
             "猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"
     };
 
-    private static String sPattern = "yyyy-MM-dd HH:mm:ss";
+    private static String sDateTimePattern = "yyyy-MM-dd HH:mm:ss";
 
     private TimeUtil() {
     }
 
-    private static DateFormat getDefaultFormat() {
-        return new SimpleDateFormat(sPattern, Locale.getDefault());
+    @NonNull
+    public static DateFormat getDefaultFormat() {
+        return new SimpleDateFormat(sDateTimePattern, Locale.getDefault());
     }
 
-    public static void setDefaultPattern(String pattern) {
-        TimeUtil.sPattern = pattern;
+    public static void setDefaultPattern(@NonNull String pattern) {
+        sDateTimePattern = pattern;
     }
 
     public static String now() {

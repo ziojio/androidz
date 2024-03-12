@@ -1,6 +1,7 @@
 package androidz.util;
 
 import static androidx.core.content.ContextCompat.getSystemService;
+import static java.util.Objects.requireNonNull;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,7 @@ import androidx.annotation.RequiresApi;
 public class NetworkUtil {
 
     public static void register(@NonNull Context context, @NonNull ConnectivityManager.NetworkCallback networkCallback) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             manager.registerDefaultNetworkCallback(networkCallback);
         } else {
@@ -28,16 +29,14 @@ public class NetworkUtil {
     }
 
     public static void unregister(@NonNull Context context, @NonNull ConnectivityManager.NetworkCallback networkCallback) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
-        if (manager != null) {
-            manager.unregisterNetworkCallback(networkCallback);
-        }
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
+        manager.unregisterNetworkCallback(networkCallback);
     }
 
     /**
      * Open the settings of wireless.
      */
-    public static void openWirelessSettings(Context context) {
+    public static void openWirelessSettings(@NonNull Context context) {
         Intent intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -47,7 +46,7 @@ public class NetworkUtil {
      * Return whether network is connected.
      */
     public static boolean isConnected(@NonNull Context context) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = manager.getActiveNetwork();
             if (network == null) {
@@ -72,7 +71,7 @@ public class NetworkUtil {
      * Return whether network is metered.
      */
     public static boolean isMeteredNetwork(@NonNull Context context) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
         return manager.isActiveNetworkMetered();
     }
 
@@ -81,7 +80,7 @@ public class NetworkUtil {
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean isCaptivePortalNetwork(@NonNull Context context) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
         Network network = manager.getActiveNetwork();
         if (network == null) {
             return false;
@@ -98,7 +97,7 @@ public class NetworkUtil {
      * Return whether using mobile data.
      */
     public static boolean isMobile(@NonNull Context context) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = manager.getActiveNetwork();
             if (network == null) {
@@ -123,7 +122,7 @@ public class NetworkUtil {
      * Return whether wifi is connected.
      */
     public static boolean isWifi(@NonNull Context context) {
-        ConnectivityManager manager = getSystemService(context, ConnectivityManager.class);
+        ConnectivityManager manager = requireNonNull(getSystemService(context, ConnectivityManager.class));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = manager.getActiveNetwork();
             if (network == null) {

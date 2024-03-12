@@ -1,8 +1,8 @@
 package androidz.util;
 
-import android.util.Log;
-
 import static androidz.util.Androidz.isDebuggable;
+
+import android.util.Log;
 
 public class ZLog {
 
@@ -12,9 +12,21 @@ public class ZLog {
         }
     }
 
+    public static void v(String tag, String msg, Throwable tr) {
+        if (isDebuggable()) {
+            Log.v(tag, msg, tr);
+        }
+    }
+
     public static void d(String tag, String msg) {
         if (isDebuggable()) {
             Log.d(tag, msg);
+        }
+    }
+
+    public static void d(String tag, String msg, Throwable tr) {
+        if (isDebuggable()) {
+            Log.d(tag, msg, tr);
         }
     }
 
@@ -24,21 +36,27 @@ public class ZLog {
         }
     }
 
+    public static void i(String tag, String msg, Throwable tr) {
+        if (isDebuggable()) {
+            Log.i(tag, msg, tr);
+        }
+    }
+
     public static void w(String tag, String msg) {
         if (isDebuggable()) {
             Log.w(tag, msg);
         }
     }
 
-    public static void w(String tag, Throwable e) {
+    public static void w(String tag, Throwable tr) {
         if (isDebuggable()) {
-            Log.w(tag, e);
+            Log.w(tag, tr);
         }
     }
 
-    public static void w(String tag, String msg, Throwable e) {
+    public static void w(String tag, String msg, Throwable tr) {
         if (isDebuggable()) {
-            Log.w(tag, msg, e);
+            Log.w(tag, msg, tr);
         }
     }
 
@@ -48,9 +66,15 @@ public class ZLog {
         }
     }
 
-    public static void e(String tag, String msg, Throwable e) {
+    public static void e(String tag, Throwable tr) {
         if (isDebuggable()) {
-            Log.e(tag, msg, e);
+            Log.e(tag, "", tr);
+        }
+    }
+
+    public static void e(String tag, String msg, Throwable tr) {
+        if (isDebuggable()) {
+            Log.e(tag, msg, tr);
         }
     }
 
@@ -60,15 +84,15 @@ public class ZLog {
         }
     }
 
-    public static void wtf(String tag, Throwable e) {
+    public static void wtf(String tag, Throwable tr) {
         if (isDebuggable()) {
-            Log.wtf(tag, e);
+            Log.wtf(tag, tr);
         }
     }
 
-    public static void wtf(String tag, String msg, Throwable e) {
+    public static void wtf(String tag, String msg, Throwable tr) {
         if (isDebuggable()) {
-            Log.wtf(tag, msg, e);
+            Log.wtf(tag, msg, tr);
         }
     }
 }

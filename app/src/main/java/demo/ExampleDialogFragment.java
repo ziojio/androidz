@@ -1,4 +1,4 @@
-package demo.ui;
+package demo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,13 +9,16 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
-import demo.R;
 
-public class LoadDialogFragment extends AppCompatDialogFragment {
+
+public class ExampleDialogFragment extends AppCompatDialogFragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_load, new FrameLayout(requireActivity()), false);
+        if (container == null) {
+            container = new FrameLayout(requireActivity());
+        }
+        return inflater.inflate(R.layout.dialog_example, container, false);
     }
 }

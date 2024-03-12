@@ -1,23 +1,24 @@
 package androidz.app;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidz.action.HandlerAction;
 
-public class AppActivity extends AppCompatActivity implements HandlerAction {
 
-    /**
-     * @see #setContentView
-     */
-    protected View getContentView() {
-        ViewGroup contentParent = findViewById(Window.ID_ANDROID_CONTENT);
-        return contentParent.getChildAt(0);
+public class AppActivity extends AppCompatActivity {
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeCallbacks();
     }
 
     protected <T extends ViewModel> T getActivityViewModel(@NonNull Class<T> modelClass) {
@@ -28,10 +29,39 @@ public class AppActivity extends AppCompatActivity implements HandlerAction {
         return new ViewModelProvider(ApplicationInstance.getInstance()).get(modelClass);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        removeCallbacks();
+    /**
+     * 获取设置的内容视图
+     *
+     * @see #setContentView
+     */
+    protected View getContentView() {
+        return findViewById(Window.ID_ANDROID_CONTENT);
     }
 
+    /**
+     * 获取 Main Handler
+     */
+    protected Handler getHandler() {
+        return mHandler;
+    }
+
+    protected boolean post(Runnable runnable) {
+        return mHandler.postAtTime(runnable, this, SystemClock.uptimeMillis());
+    }
+
+    protected boolean postDelayed(Runnable runnable, long delayMillis) {
+        if (delayMillis < 0) {
+            delayMillis = 0;
+        }
+        return mHandler.postAtTime(runnable, this, SystemClock.uptimeMillis() + delayMillis);
+    }
+
+    protected void removeCallbacks(Runnable runnable) {
+        mHandler.removeCallbacks(runnable);
+    }
+
+    protected void removeCallbacks() {
+        // 移除和当前对象相关的消息回调
+        mHandler.removeCallbacksAndMessages(this);
+    }
 }

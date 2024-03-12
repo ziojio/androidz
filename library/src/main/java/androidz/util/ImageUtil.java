@@ -29,8 +29,7 @@ public class ImageUtil {
             Matrix matrix = new Matrix();
             matrix.preRotate(degree);
             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -40,8 +39,7 @@ public class ImageUtil {
         if (TextUtils.isEmpty(filePath)) return null;
         try {
             return BitmapFactory.decodeFile(filePath);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -63,8 +61,7 @@ public class ImageUtil {
             options.inJustDecodeBounds = false;
 
             return BitmapFactory.decodeFile(filePath, options);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return null;
     }
