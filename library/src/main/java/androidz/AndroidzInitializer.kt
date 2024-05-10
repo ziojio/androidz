@@ -1,4 +1,4 @@
-package androidz.util
+package androidz
 
 import android.content.Context
 import androidx.startup.Initializer

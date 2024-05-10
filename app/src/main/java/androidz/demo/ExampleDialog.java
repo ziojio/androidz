@@ -1,4 +1,4 @@
-package demo;
+package androidz.demo;
 
 import android.content.Context;
 import android.os.Bundle;

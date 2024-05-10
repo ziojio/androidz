@@ -1,4 +1,4 @@
-package androidz.util
+package androidz
 
 import android.content.Context
 import android.content.Intent
@@ -47,7 +47,6 @@ object NetworkUtil {
      * Return whether network is connected.
      */
     @JvmStatic
-    @Suppress("DEPRECATION")
     fun isAvailable(context: Context): Boolean {
         val manager = context.getSystemService<ConnectivityManager>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -87,7 +86,6 @@ object NetworkUtil {
      * Return whether using mobile data.
      */
     @JvmStatic
-    @Suppress("DEPRECATION")
     fun isMobile(context: Context): Boolean {
         val manager = context.getSystemService<ConnectivityManager>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -105,7 +103,6 @@ object NetworkUtil {
      * Return whether wifi is connected.
      */
     @JvmStatic
-    @Suppress("DEPRECATION")
     fun isWifi(context: Context): Boolean {
         val manager = context.getSystemService<ConnectivityManager>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

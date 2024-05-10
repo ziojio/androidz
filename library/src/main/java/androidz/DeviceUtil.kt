@@ -1,4 +1,4 @@
-package androidz.util
+package androidz
 
 import android.content.Context
 import android.content.res.Configuration.SCREENLAYOUT_SIZE_LARGE
@@ -33,17 +33,8 @@ object DeviceUtil {
 
     @JvmStatic
     val isEmulator: Boolean
-        get() {
-            try {
-                val field = Build::class.java.getField("IS_EMULATOR")
-                return field.getBoolean(null)
-            } catch (ignored: NoSuchFieldException) {
-            } catch (ignored: IllegalAccessException) {
-            }
-            return isEmulator(Build.DEVICE)
-                    || isEmulator(Build.MODEL)
-                    || isEmulator(Build.FINGERPRINT)
-        }
+        get() = isEmulator(Build.DEVICE) || isEmulator(Build.MODEL) || isEmulator(Build.FINGERPRINT)
+
 
     private fun isEmulator(str: String): Boolean {
         val device = str.lowercase(Locale.US)

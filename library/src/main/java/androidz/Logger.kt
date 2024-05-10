@@ -1,4 +1,4 @@
-package androidz.util
+package androidz
 
 import android.util.Log
 

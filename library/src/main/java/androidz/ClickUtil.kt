@@ -1,8 +1,7 @@
-package androidz.util
+package androidz
 
 import android.os.SystemClock
 import android.view.View
-import com.ziojio.androidz.R
 
 
 object ClickUtil {

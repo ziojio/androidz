@@ -1,4 +1,4 @@
-package androidz.util
+package androidz
 
 import android.app.Application
 import android.content.Context
@@ -15,15 +15,15 @@ object Androidz {
     fun initialize(context: Context) {
         App.attachApplication(context.applicationContext as Application)
         isDebuggable = App.isDebuggable
+        ActivityStackManager.register(app)
+        ActivityStackManager.isDebuggable = isDebuggable
     }
 
     @JvmStatic
     val app: App = App
 
     @JvmStatic
-    val handler: Handler by lazy {
-        Handler(Looper.getMainLooper())
-    }
+    val handler: Handler = Handler(Looper.getMainLooper())
 
     @JvmStatic
     var isDebuggable: Boolean = false
@@ -45,22 +45,17 @@ object Androidz {
     }
 
     @JvmStatic
-    fun isMainThread(): Boolean {
-        return Looper.getMainLooper().thread === Thread.currentThread()
-    }
+    val isMainThread: Boolean
+        get() = Looper.getMainLooper().thread === Thread.currentThread()
 
     @JvmStatic
-    fun isBackgroundThread(): Boolean {
-        return !isMainThread()
-    }
+    val isBackgroundThread: Boolean
+        get() = !isMainThread
 
     @JvmStatic
-    fun runOnUiThread(runnable: Runnable) {
-        if (isMainThread()) {
-            runnable.run()
-        } else {
-            handler.post(runnable)
-        }
+    @JvmOverloads
+    fun runOnUiThread(r: Runnable, delayMillis: Long = 0) {
+        handler.postDelayed(r, delayMillis)
     }
 
 }

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application>
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -11,9 +10,8 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="androidz.util.AndroidzInitializer"
+                android:name="androidz.AndroidzInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>
-
 </manifest>

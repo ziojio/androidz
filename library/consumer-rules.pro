@@ -1,2 +1,2 @@
 
--keep public class androidz.util.AndroidzInitializer {*;}
+-keep public class androidz.AndroidzInitializer {*;}

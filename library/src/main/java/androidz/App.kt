@@ -1,38 +1,39 @@
-package androidz.util
+package androidz
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ComponentCallbacks
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager.PackageInfoFlags
-import android.content.res.Configuration
 import android.os.Build
-
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 
 /**
- * Delegate Application
+ * Delegate application
  * @see Androidz
  */
-object App : Application() {
+object App : Application(), ViewModelStoreOwner, HasDefaultViewModelProviderFactory {
     private lateinit var app: Application
 
+    fun attachApplication(application: Application) {
+        app = application
+        attachBaseContext(application.baseContext)
+    }
+
+    @JvmField
     val globalData: MutableMap<String, Any> = mutableMapOf()
 
-    // operator fun get(key: String) = globalData[key]
-    // operator fun set(key: String, value: Any) {
-    //     globalData[key] = value
-    // }
-
     val isDebuggable: Boolean by lazy {
-        applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE == 2
+        applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE > 0
     }
 
     val packageInfo: PackageInfo by lazy {
         val info = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageManager.getPackageInfo(packageName, PackageInfoFlags.of(0))
         } else {
-            @Suppress("DEPRECATION")
             packageManager.getPackageInfo(packageName, 0)
         }
         // consistent with app
@@ -40,26 +41,20 @@ object App : Application() {
         return@lazy info
     }
 
-    fun attachApplication(application: Application) {
-        app = application
-        attachBaseContext(application.baseContext)
+    override val viewModelStore: ViewModelStore by lazy {
+        ViewModelStore()
     }
 
-    @SuppressLint("MissingSuperCall")
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        app.onConfigurationChanged(newConfig)
-    }
+    override val defaultViewModelProviderFactory: ViewModelProvider.Factory
+        get() = ViewModelProvider.AndroidViewModelFactory.getInstance(app)
 
-    @SuppressLint("MissingSuperCall")
-    override fun onLowMemory() {
-        app.onLowMemory()
-    }
-
-    @SuppressLint("MissingSuperCall")
-    override fun onTrimMemory(level: Int) {
-        app.onTrimMemory(level)
-    }
-
+    /**
+     * use registerComponentCallbacks instead of
+     * @see onConfigurationChanged
+     * @see onLowMemory
+     * @see onTrimMemory
+     * @see ComponentCallbacks
+     */
     override fun registerComponentCallbacks(callback: ComponentCallbacks) {
         app.registerComponentCallbacks(callback)
     }

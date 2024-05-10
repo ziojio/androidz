@@ -1,4 +1,6 @@
-package androidz.util;
+package androidz;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.Activity;
 import android.graphics.Rect;
@@ -12,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 
 public class KeyboardUtil {

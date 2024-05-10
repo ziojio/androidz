@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- 透明色 -->
     <color name="transparent">#00000000</color>
-    <!-- 红色 -->
     <color name="red">@color/red_500</color>
-    <!-- 橙色 -->
     <color name="orange">#FF9800</color>
-    <!-- 黄色 -->
     <color name="yellow">@color/yellow_500</color>
-    <!-- 绿色 -->
     <color name="green">@color/green_500</color>
-    <!-- 蓝色 -->
     <color name="blue">@color/blue_500</color>
 
-    <!-- 白色 透明色 -->
     <color name="white">#FFFFFFFF</color>
     <color name="white95">#F2FFFFFF</color>
     <color name="white90">#E6FFFFFF</color>
@@ -36,7 +28,6 @@
     <color name="white10">#1AFFFFFF</color>
     <color name="white5">#0DFFFFFF</color>
 
-    <!-- 黑色 透明色 -->
     <color name="black">#FF000000</color>
     <color name="black95">#F2000000</color>
     <color name="black90">#E6000000</color>
@@ -57,5 +48,4 @@
     <color name="black15">#26000000</color>
     <color name="black10">#1A000000</color>
     <color name="black5">#0D000000</color>
-
 </resources>

@@ -1,4 +1,4 @@
-package androidz.util;
+package androidz;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,14 +16,12 @@ import androidx.annotation.Nullable;
 public class ImageUtil {
 
     /**
-     * @param filePath  The path of file.
+     * @param filePath  The path of image file.
      * @param maxWidth  The maximum width.
      * @param maxHeight The maximum height.
      */
     @Nullable
-    public static Bitmap getBitmap(String filePath, int maxWidth, int maxHeight) {
-        if (TextUtils.isEmpty(filePath))
-            return null;
+    public static Bitmap getBitmap(@NonNull String filePath, int maxWidth, int maxHeight) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -46,7 +43,7 @@ public class ImageUtil {
      * @param maxHeight The maximum height.
      * @return the sample size
      */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int maxWidth, int maxHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int maxWidth, int maxHeight) {
         int height = options.outHeight;
         int width = options.outWidth;
         int inSampleSize = 1;
@@ -61,9 +58,8 @@ public class ImageUtil {
     /**
      * Drawable to bitmap.
      */
-    public static Bitmap drawable2Bitmap(final Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+    public static Bitmap drawable2Bitmap(@NonNull Drawable drawable) {
+        if (drawable instanceof BitmapDrawable bitmapDrawable) {
             if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }

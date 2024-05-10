@@ -1,4 +1,4 @@
-package demo;
+package androidz.demo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

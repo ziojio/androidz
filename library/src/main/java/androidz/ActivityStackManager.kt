@@ -1,8 +1,9 @@
-package androidz.app
+package androidz
 
 import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.IntRange
@@ -19,7 +20,7 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
 
     private var application: Application? = null
 
-    @JvmField
+    @JvmStatic
     var isDebuggable: Boolean = false
 
     @JvmStatic
@@ -28,18 +29,17 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
 
     @JvmStatic
     fun register(app: Application) {
-        synchronized(stack) {
-            if (application != null) {
-                throw IllegalStateException("ActivityStackManager already registered")
+        synchronized(this) {
+            if (application == null) {
+                application = app
+                app.registerActivityLifecycleCallbacks(this)
             }
-            application = app
-            app.registerActivityLifecycleCallbacks(this)
         }
     }
 
     @JvmStatic
     fun unregister() {
-        synchronized(stack) {
+        synchronized(this) {
             if (application != null) {
                 application!!.unregisterActivityLifecycleCallbacks(this)
                 application = null
@@ -87,7 +87,13 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
 
             // 无动画
             if (!animated) {
-                activity?.overridePendingTransition(0, 0)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    activity?.overrideActivityTransition(
+                        Activity.OVERRIDE_TRANSITION_CLOSE, 0, 0
+                    )
+                } else {
+                    activity?.overridePendingTransition(0, 0)
+                }
             }
         }
     }
@@ -107,7 +113,13 @@ object ActivityStackManager : ActivityLifecycleCallbacks {
 
                 // 无动画
                 if (!animated) {
-                    activity?.overridePendingTransition(0, 0)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        activity?.overrideActivityTransition(
+                            Activity.OVERRIDE_TRANSITION_CLOSE, 0, 0
+                        )
+                    } else {
+                        activity?.overridePendingTransition(0, 0)
+                    }
                 }
             }
         }

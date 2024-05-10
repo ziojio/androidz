@@ -1,4 +1,4 @@
-package androidz.app
+package androidz
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatDialogFragment
-import com.ziojio.androidz.R
 
 /**
  * 屏幕旋转时保持状态
@@ -20,7 +19,8 @@ class LoadingDialogFragment : AppCompatDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val contentId = arguments?.getInt(LOADING_LAYOUT_RES) ?: R.layout.loading_dialog
+        val contentId = arguments?.getInt(LOADING_LAYOUT_RES, R.layout.loading_dialog)
+            ?: R.layout.loading_dialog
         return inflater.inflate(contentId, container ?: FrameLayout(requireActivity()), false)
     }
 

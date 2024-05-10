@@ -1,4 +1,4 @@
-package demo;
+package androidz.demo;
 
 import android.app.AlertDialog;
 import android.net.ConnectivityManager;
@@ -11,12 +11,16 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
-import java.lang.reflect.Field;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import demo.databinding.ActivityMainBinding;
+
+import java.lang.reflect.Field;
+
+import androidz.Androidz;
+import androidz.App;
+import androidz.LoadingDialog;
+import androidz.demo.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         binding.execute.setOnClickListener(v -> {
             Log.d(TAG, "execFunction");
             showDisplay();
+            new LoadingDialog(this).show();
         });
         binding.dialog.setOnClickListener(v -> {
             Log.d(TAG, "openDialog");
@@ -48,7 +53,15 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
         binding.device.setOnClickListener(v -> {
-            logBuildInfo();
+            // logBuildInfo();
+            Log.d(TAG, "execFunction " + App.INSTANCE);
+            Log.d(TAG, "execFunction " + Androidz.isMainThread());
+            Log.d(TAG, "execFunction " + Androidz.isBackgroundThread());
+            new Thread(() -> {
+                Log.d(TAG, "Thread " + App.INSTANCE);
+                Log.d(TAG, "Thread " + Androidz.isMainThread());
+                Log.d(TAG, "Thread " + Androidz.isBackgroundThread());
+            }).start();
         });
     }
 

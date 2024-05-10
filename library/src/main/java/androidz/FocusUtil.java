@@ -1,6 +1,4 @@
-package androidz.util;
-
-import static androidx.core.content.ContextCompat.getSystemService;
+package androidz;
 
 import android.app.Activity;
 import android.os.Build;
@@ -9,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 public class FocusUtil {
 
@@ -26,17 +25,17 @@ public class FocusUtil {
     }
 
     public static void clearFocus(@NonNull Activity activity) {
-        if (activity.getCurrentFocus() != null && activity.getCurrentFocus().getWindowToken() != null) {
-            InputMethodManager imm = getSystemService(activity, InputMethodManager.class);
+        View currentFocus = activity.getCurrentFocus();
+        if (currentFocus != null && currentFocus.getWindowToken() != null) {
+            InputMethodManager imm = ContextCompat.getSystemService(activity, InputMethodManager.class);
             if (imm != null && imm.isActive()) {
-                clearFocus(activity.getCurrentFocus());
+                clearFocus(currentFocus);
             }
         }
     }
 
     private static void focusParent(@NonNull View view) {
-        if (view.getParent() instanceof ViewGroup) {
-            ViewGroup parent = (ViewGroup) view.getParent();
+        if (view.getParent() instanceof ViewGroup parent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 parent.setDefaultFocusHighlightEnabled(false);
             }
