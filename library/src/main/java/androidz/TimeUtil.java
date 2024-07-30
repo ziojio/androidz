@@ -1,7 +1,5 @@
 package androidz;
 
-import androidx.annotation.NonNull;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,18 +7,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+
 /**
  * @see SimpleDateFormat 关于格式化字符的含义
  */
-public class TimeUtil {
+public final class TimeUtil {
     private static final String[] CHINESE_ZODIAC = new String[]{
             "猴", "鸡", "狗", "猪", "鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊"
     };
 
     private static String sDateTimePattern = "yyyy-MM-dd HH:mm:ss";
-
-    private TimeUtil() {
-    }
 
     @NonNull
     public static DateFormat getDefaultFormat() {

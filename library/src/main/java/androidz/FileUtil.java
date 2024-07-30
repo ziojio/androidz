@@ -1,11 +1,6 @@
 package androidz;
 
-import android.os.FileUtils;
 import android.util.Log;
-
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -17,10 +12,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * @see FileUtils
+ * @see android.os.FileUtils
  */
-public class FileUtil {
+public final class FileUtil {
     private static final String TAG = "FileUtil";
 
     /**

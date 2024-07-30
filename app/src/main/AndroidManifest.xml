@@ -33,7 +33,7 @@
 
 
     <application
-        android:name="uiapp.UIApp"
+        android:name="demo.UIApp"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -46,7 +46,7 @@
         tools:targetApi="s">
 
         <activity
-            android:name="uiapp.ui.activity.MainActivity"
+            android:name="demo.ui.activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting"
             android:windowSoftInputMode="adjustPan">
@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="uiapp.web.WebActivity"
+            android:name="demo.web.WebActivity"
             android:exported="true">
             <intent-filter>
                 <data android:scheme="https" />
@@ -68,30 +68,30 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name="uiapp.ui.base.MultiFragmentActivity" />
-        <activity android:name="uiapp.ui.activity.DataBaseActivity" />
-        <activity android:name="uiapp.ui.activity.RxJavaActivity" />
-        <activity android:name="uiapp.ui.activity.AnimationActivity" />
-        <activity android:name="uiapp.ui.activity.WebSocketActivity" />
+        <activity android:name="demo.ui.base.MultiFragmentActivity" />
+        <activity android:name="demo.ui.activity.DataBaseActivity" />
+        <activity android:name="demo.ui.activity.RxJavaActivity" />
+        <activity android:name="demo.ui.activity.AnimationActivity" />
+        <activity android:name="demo.ui.activity.WebSocketActivity" />
         <!-- <activity android:name="uiapp.ui.activity.WaterMarkActivity" /> -->
-        <activity android:name="uiapp.ui.activity.AidlActivity" />
+        <activity android:name="demo.ui.activity.AidlActivity" />
 
-        <activity android:name="uiapp.ui.camera.TakePictureActivity" />
-        <activity android:name="uiapp.ui.camera.TakeVideoActivity" />
-        <activity android:name="uiapp.ui.camera.CameraActivity" />
-        <activity android:name="uiapp.ui.camera.Camera2Activity" />
-        <activity android:name="uiapp.ui.camera.AudioActivity" />
-        <activity android:name="uiapp.ui.bluetooth.BluetoothActivity" />
-        <activity android:name="uiapp.ui.bluetooth.BluetoothLeActivity" />
-        <activity android:name="uiapp.ui.databinding.DataBindingActivity" />
-        <activity android:name="uiapp.ui.http.HttpActivity" />
-        <activity android:name="uiapp.ui.edit.EditActivity" />
-        <activity android:name="uiapp.ui.paging.Paging3Activity" />
-        <activity android:name="uiapp.ui.ktx.KotlinActivity" />
+        <activity android:name="demo.ui.camera.TakePictureActivity" />
+        <activity android:name="demo.ui.camera.TakeVideoActivity" />
+        <activity android:name="demo.ui.camera.CameraActivity" />
+        <activity android:name="demo.ui.camera.Camera2Activity" />
+        <activity android:name="demo.ui.camera.AudioActivity" />
+        <activity android:name="demo.ui.bluetooth.BluetoothActivity" />
+        <activity android:name="demo.ui.bluetooth.BluetoothLeActivity" />
+        <activity android:name="demo.ui.databinding.DataBindingActivity" />
+        <activity android:name="demo.ui.http.HttpActivity" />
+        <activity android:name="demo.ui.edit.EditActivity" />
+        <activity android:name="demo.ui.paging.Paging3Activity" />
+        <activity android:name="demo.ui.ktx.KotlinActivity" />
 
-        <service android:name="uiapp.service.AidlService" />
+        <service android:name="demo.service.AidlService" />
         <service
-            android:name="uiapp.service.FastInputIME"
+            android:name="demo.service.FastInputIME"
             android:exported="true"
             android:label="FastInputIME"
             android:permission="android.permission.BIND_INPUT_METHOD">

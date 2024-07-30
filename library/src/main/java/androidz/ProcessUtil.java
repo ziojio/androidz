@@ -10,14 +10,14 @@ import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.lang.reflect.Method;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-public class ProcessUtil {
+
+public final class ProcessUtil {
 
     public static boolean isMainProcess(@NonNull Context context) {
         String processName = getProcessName(context);

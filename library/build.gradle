@@ -4,10 +4,6 @@ plugins {
     id 'maven-publish'
 }
 
-kotlin {
-    jvmToolchain(17)
-}
-
 android {
     namespace 'androidz'
     compileSdk 34
@@ -16,17 +12,21 @@ android {
         minSdk 21
         consumerProguardFiles "consumer-rules.pro"
     }
-    publishing {
-        singleVariant('release') {
-            withSourcesJar()
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

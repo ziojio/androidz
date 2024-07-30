@@ -1,7 +1,5 @@
 package androidz;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Activity;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -15,8 +13,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import static androidx.core.content.ContextCompat.getSystemService;
 
-public class KeyboardUtil {
+
+public final class KeyboardUtil {
 
     public static void showKeyboard(@NonNull View view) {
         showKeyboard(view, true);
@@ -81,7 +81,7 @@ public class KeyboardUtil {
         return getContentViewInvisibleHeight(activity) >= minHeightOfSoftInput;
     }
 
-    public static int getContentViewInvisibleHeight(@NonNull Activity activity) {
+    private static int getContentViewInvisibleHeight(@NonNull Activity activity) {
         final FrameLayout contentView = activity.findViewById(android.R.id.content);
         final View contentViewChild = contentView.getChildAt(0);
         final Rect outRect = new Rect();

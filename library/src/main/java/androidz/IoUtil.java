@@ -2,8 +2,6 @@ package androidz;
 
 import android.os.Build;
 
-import androidx.annotation.NonNull;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,8 +9,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import androidx.annotation.NonNull;
 
-public class IoUtil {
+
+public final class IoUtil {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 8;
 
 
@@ -26,8 +26,9 @@ public class IoUtil {
         } else {
             try (FileInputStream fis = new FileInputStream(file); ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
                 byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-                while (fis.read(buffer, 0, DEFAULT_BUFFER_SIZE) >= 0) {
-                    bao.write(buffer, 0, DEFAULT_BUFFER_SIZE);
+                int len;
+                while ((len = fis.read(buffer, 0, DEFAULT_BUFFER_SIZE)) > 0) {
+                    bao.write(buffer, 0, len);
                 }
                 return bao.toByteArray();
             }

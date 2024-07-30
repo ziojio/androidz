@@ -2,7 +2,7 @@ package androidz
 
 import android.app.ActivityManager
 import android.content.Context
-import androidz.Androidz.app
+import androidz.Androidz.getContext
 import java.io.File
 
 object CleanUtil {
@@ -13,7 +13,7 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanInternalCache(): Boolean {
-        return FileUtil.deleteContents(app.cacheDir)
+        return FileUtil.deleteContents(getContext().cacheDir)
     }
 
     /**
@@ -22,7 +22,7 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanInternalFiles(): Boolean {
-        return FileUtil.deleteContents(app.filesDir)
+        return FileUtil.deleteContents(getContext().filesDir)
     }
 
     /**
@@ -31,7 +31,7 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanInternalSp(): Boolean {
-        return FileUtil.deleteContents(File(app.filesDir.parent, "shared_prefs"))
+        return FileUtil.deleteContents(File(getContext().filesDir.parent, "shared_prefs"))
     }
 
     /**
@@ -40,7 +40,7 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanInternalDbs(): Boolean {
-        return FileUtil.deleteContents(File(app.filesDir.parent, "databases"))
+        return FileUtil.deleteContents(File(getContext().filesDir.parent, "databases"))
     }
 
     /**
@@ -49,7 +49,7 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanInternalDb(dbName: String?): Boolean {
-        return app.deleteDatabase(dbName)
+        return getContext().deleteDatabase(dbName)
     }
 
     /**
@@ -58,7 +58,7 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanExternalFile(): Boolean {
-        val file = app.getExternalFilesDir(null)
+        val file = getContext().getExternalFilesDir(null)
         return file == null || FileUtil.deleteContents(file)
     }
 
@@ -68,13 +68,13 @@ object CleanUtil {
      */
     @JvmStatic
     fun cleanExternalCache(): Boolean {
-        val file = app.externalCacheDir
+        val file = getContext().externalCacheDir
         return file == null || FileUtil.deleteContents(file)
     }
 
     @JvmStatic
     fun cleanAppUserData() {
-        val am = app.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val am = getContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         am.clearApplicationUserData()
     }
 }
