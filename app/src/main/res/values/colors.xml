@@ -5,7 +5,7 @@
 
     <color name="window_background_color">#FFf5f5f7</color>
     <!--  矢量图标的默认颜色  -->
-    <color name="fill_icon_color">@color/gray_700</color>
+    <color name="vector_icon_color">@color/gray_800</color>
     <!--  分割线颜色 -->
     <color name="divider_color">@color/gray_300</color>
 

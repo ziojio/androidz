@@ -1,25 +1,21 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
     id 'maven-publish'
 }
 
-kotlin {
-    jvmToolchain(17)
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
 }
 
 android {
-    namespace 'androidz'
+    namespace 'androidz.util'
     compileSdk 34
 
     defaultConfig {
         minSdk 21
         consumerProguardFiles "consumer-rules.pro"
-    }
-    publishing {
-        singleVariant('release') {
-            withSourcesJar()
-        }
     }
     buildTypes {
         release {
@@ -27,22 +23,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
-    api "androidx.appcompat:appcompat:1.5.1"
-    api "androidx.activity:activity-ktx:1.7.2"
-    api "androidx.fragment:fragment-ktx:1.5.7"
-    api "androidx.core:core-ktx:1.10.1"
-    api "androidx.startup:startup-runtime:1.1.1"
+    api "androidx.appcompat:appcompat:1.4.2"
+    api "androidx.startup:startup-runtime:1.2.0"
     api 'androidx.cardview:cardview:1.0.0'
 }
 
 publishing {
     publications {
         release(MavenPublication) {
-            groupId = 'com.ziojio'
-            artifactId = 'androidz'
+            groupId = 'androidz'
+            artifactId = 'util'
             version = '1.0'
 
             afterEvaluate {

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
+    id 'org.jetbrains.kotlin.kapt'
     id 'com.google.dagger.hilt.android'
 }
 
@@ -10,11 +11,11 @@ kotlin {
 }
 
 android {
-    namespace 'uiapp'
+    namespace 'demo'
     compileSdk appCompileSdk
 
     defaultConfig {
-        applicationId 'com.ziojio.uiapp'
+        applicationId 'androidz.demo'
         minSdk appMinSdk
         targetSdk appTargetSdk
         versionCode 3
@@ -29,10 +30,10 @@ android {
     }
 
     signingConfigs {
-        def localProperties = new Properties()
-        localProperties.load(new FileReader(rootProject.file("local.properties")))
-        if (localProperties.containsKey("storeFile")) {
-            release {
+        release {
+            def localProperties = new Properties()
+            localProperties.load(new FileReader(rootProject.file("local.properties")))
+            if (localProperties.containsKey("storeFile")) {
                 storeFile rootProject.file(localProperties["storeFile"])
                 storePassword localProperties["storePassword"]
                 keyAlias localProperties["keyAlias"]
@@ -51,7 +52,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        // noinspection DataBindingWithoutKapt
         dataBinding = true
     }
 
@@ -66,8 +66,8 @@ dependencies {
 
     implementation project(':composex')
     implementation project(':hummerx')
-    // implementation project(':library')
-    implementation "com.github.ziojio:androidz:1.0.2"
+    implementation project(':library')
+//    implementation "com.github.ziojio:androidz:1.0.2"
 
     // Google Android
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
