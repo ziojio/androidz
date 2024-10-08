@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayDeque;
-
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,6 +56,7 @@ public class ActivityStackManager implements ActivityLifecycleCallbacks {
         stack.remove(activity);
     }
 
+    @Nullable
     public Activity getTopActivity() {
         return stack.peek();
     }

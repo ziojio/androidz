@@ -7,7 +7,7 @@ import android.util.TypedValue;
 
 import androidx.annotation.NonNull;
 
-public class DpUtil {
+public class Utils {
 
     public static float dp2px(@NonNull Context context, float value) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();

@@ -12,14 +12,12 @@ import java.io.File;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
-import androidz.App;
 import androidz.AppUtil;
 import dagger.hilt.android.HiltAndroidApp;
 import demo.database.room.AppDB;
 import demo.database.room.entity.TrackLog;
 import demo.log.FileLogTree;
 import demo.log.LogUtil;
-import demo.ui.ktx.AppCache;
 import timber.log.Timber;
 
 @HiltAndroidApp

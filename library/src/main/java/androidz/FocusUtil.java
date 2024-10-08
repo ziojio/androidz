@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+
 public class FocusUtil {
 
     public static void requestFocus(@NonNull View view) {

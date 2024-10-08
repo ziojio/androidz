@@ -12,8 +12,7 @@ import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 
 /**
- * Delegate application
- * @see Androidz
+ * Delegate Application
  */
 object App : Application(), ViewModelStoreOwner, HasDefaultViewModelProviderFactory {
     private lateinit var app: Application

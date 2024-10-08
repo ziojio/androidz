@@ -128,7 +128,7 @@ public class HomeFragment extends BaseFragment {
                             startActivity(new Intent(requireActivity(), DataBaseActivity.class));
                         }
                         case dialog -> {
-                            new LoadingDialog(requireActivity()).show();
+                            LoadingDialog.showLoading(requireActivity());
                         }
                         case compose -> {
                             startActivity(new Intent(requireActivity(), ComposeActivity.class));

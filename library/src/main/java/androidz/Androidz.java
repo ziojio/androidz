@@ -5,9 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-/**
- * Main
- */
 public class Androidz {
     private static final Handler handler = new Handler(Looper.getMainLooper());
     private static boolean debuggable;
@@ -35,15 +32,11 @@ public class Androidz {
         Androidz.debuggable = debuggable;
     }
 
-    public static Handler getHandler() {
+    public static Handler getMainHandler() {
         return handler;
     }
 
     public static boolean isMainThread() {
         return Looper.getMainLooper().getThread() == Thread.currentThread();
-    }
-
-    public static void setLogger(Logger logger) {
-        Logger.setLogger(logger);
     }
 }

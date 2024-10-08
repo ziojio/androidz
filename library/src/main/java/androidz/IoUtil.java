@@ -26,8 +26,9 @@ public class IoUtil {
         } else {
             try (FileInputStream fis = new FileInputStream(file); ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
                 byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-                while (fis.read(buffer, 0, DEFAULT_BUFFER_SIZE) >= 0) {
-                    bao.write(buffer, 0, DEFAULT_BUFFER_SIZE);
+                int len;
+                while ((len = fis.read(buffer, 0, DEFAULT_BUFFER_SIZE)) > 0) {
+                    bao.write(buffer, 0, len);
                 }
                 return bao.toByteArray();
             }
