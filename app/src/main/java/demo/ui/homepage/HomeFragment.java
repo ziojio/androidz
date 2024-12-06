@@ -2,7 +2,6 @@ package demo.ui.homepage;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
 import android.net.Network;
@@ -132,8 +131,10 @@ public class HomeFragment extends BaseFragment {
                             if (LoadingDialog.isShowing()) {
                                 LoadingDialog.hide();
                             } else {
-                                requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-                                LoadingDialog.showLoading(requireActivity());
+                                LoadingDialog.Options options = new LoadingDialog.Options();
+                                options.cancelable = true;
+                                // requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+                                LoadingDialog.showLoading(requireActivity(), options);
                             }
                         }
                         case compose -> {

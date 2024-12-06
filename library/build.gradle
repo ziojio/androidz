@@ -4,6 +4,10 @@ plugins {
     id 'maven-publish'
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 android {
     namespace 'androidz'
     compileSdk 34
@@ -23,10 +27,6 @@ android {
             withSourcesJar()
         }
     }
-}
-
-kotlin {
-    jvmToolchain(17)
 }
 
 dependencies {

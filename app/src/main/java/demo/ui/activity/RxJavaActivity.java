@@ -39,6 +39,8 @@ import timber.log.Timber;
 
 
 public class RxJavaActivity extends BaseActivity {
+    static int x = 500;
+    static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,13 @@ public class RxJavaActivity extends BaseActivity {
         binding.single.setOnClickListener(v -> single());
         binding.complete.setOnClickListener(v -> complete());
 
+        if (count++ % 2 == 0) {
+            try {
+                Thread.sleep(x);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private void test() {
