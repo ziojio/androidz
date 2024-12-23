@@ -8,23 +8,24 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-
-import static androidx.core.content.ContextCompat.getSystemService;
-import static java.util.Objects.requireNonNull;
+import androidx.core.content.ContextCompat;
 
 
 public final class NetworkUtil {
 
     @NonNull
-    public static ConnectivityManager getManager() {
-        return requireNonNull(getSystemService(Androidz.getContext(), ConnectivityManager.class));
+    public static ConnectivityManager getConnectivityManager() {
+        ConnectivityManager manager = ContextCompat.getSystemService(UtilApp.getApp(), ConnectivityManager.class);
+        if (manager == null)
+            throw new IllegalStateException("ConnectivityManager not found");
+        return manager;
     }
 
     /**
      * 网络是否可用
      */
     public static boolean isAvailable() {
-        ConnectivityManager manager = getManager();
+        ConnectivityManager manager = getConnectivityManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = manager.getActiveNetwork();
             if (network != null) {
@@ -48,15 +49,15 @@ public final class NetworkUtil {
      * 网络按流量计费
      */
     public static boolean isMeteredNetwork() {
-        return getManager().isActiveNetworkMetered();
+        return getConnectivityManager().isActiveNetworkMetered();
     }
 
     /**
-     * 网络具有强制门户
+     * 网络具有强制门户（需要登陆）
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static boolean isCaptivePortalNetwork() {
-        ConnectivityManager manager = getManager();
+    public static boolean isCaptivePortal() {
+        ConnectivityManager manager = getConnectivityManager();
         Network network = manager.getActiveNetwork();
         if (network != null) {
             NetworkCapabilities networkCapabilities = manager.getNetworkCapabilities(network);
@@ -68,7 +69,7 @@ public final class NetworkUtil {
     }
 
     public static boolean isMobile() {
-        ConnectivityManager manager = getManager();
+        ConnectivityManager manager = getConnectivityManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = manager.getActiveNetwork();
             if (network != null) {
@@ -87,7 +88,7 @@ public final class NetworkUtil {
     }
 
     public static boolean isWifi() {
-        ConnectivityManager manager = getManager();
+        ConnectivityManager manager = getConnectivityManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = manager.getActiveNetwork();
             if (network != null) {

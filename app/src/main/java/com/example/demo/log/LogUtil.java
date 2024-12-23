@@ -2,6 +2,8 @@ package com.example.demo.log;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.example.demo.UIApp;
 import com.example.demo.database.room.entity.TrackLog;
 import com.example.demo.util.AsyncTask;
@@ -12,15 +14,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-
 public class LogUtil {
 
     public static File getLogDir(@NonNull Context context) {
-        File file = context.getExternalCacheDir();
-        if (file == null) {
-            file = context.getCacheDir();
-        }
+        File file = context.getCacheDir();
         return new File(file, "log");
     }
 

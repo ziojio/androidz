@@ -5,7 +5,8 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 
-import java.io.BufferedWriter;
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,15 +15,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import timber.log.Timber;
 
 
 public class FileLogTree extends Timber.DebugTree implements Handler.Callback {
-    private SimpleDateFormat dateFormat;
-    private BufferedWriter fileWriter;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
     private HandlerThread handlerThread;
     private Handler handler;
+    private FileWriter fileWriter;
 
     public FileLogTree(File file) {
         try {
@@ -33,11 +33,10 @@ public class FileLogTree extends Timber.DebugTree implements Handler.Callback {
                 }
                 file.createNewFile();
             }
-            fileWriter = new BufferedWriter(new FileWriter(file, true));
-            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
             handlerThread = new HandlerThread("FileLog");
             handlerThread.start();
             handler = new Handler(handlerThread.getLooper(), this);
+            fileWriter = new FileWriter(file, true);
         } catch (Exception e) {
             Log.e("FileLogTree", "file[" + file + "]", e);
         }
@@ -59,6 +58,7 @@ public class FileLogTree extends Timber.DebugTree implements Handler.Callback {
         if (fileWriter != null) {
             try {
                 fileWriter.write((String) msg.obj);
+                fileWriter.flush();
             } catch (IOException ignored) {
             }
         }

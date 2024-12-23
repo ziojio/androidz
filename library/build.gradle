@@ -3,12 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
-
 android {
     namespace 'androidz.util'
     compileSdk 34
@@ -17,12 +11,19 @@ android {
         minSdk 21
         consumerProguardFiles "consumer-rules.pro"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
     publishing {
         singleVariant('release') {
             withSourcesJar()
@@ -31,9 +32,9 @@ android {
 }
 
 dependencies {
-    api "androidx.appcompat:appcompat:1.4.2"
-    api "androidx.startup:startup-runtime:1.2.0"
-    api 'androidx.cardview:cardview:1.0.0'
+    implementation "androidx.appcompat:appcompat:1.4.2"
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation "androidx.startup:startup-runtime:1.1.1"
 }
 
 publishing {

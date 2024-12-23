@@ -1,93 +1,117 @@
 package androidz.util;
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDialog;
+import androidx.core.content.ContextCompat;
 
 
 public final class LoadingDialog {
 
-    private static final int LOADING_VIEW = R.layout.loading_dialog;
+    @SuppressLint("StaticFieldLeak")
+    private static InternalLoadingDialog dialog;
 
-    private static InternalDialog loadingDialog;
-
-    public static void showLoading(@NonNull Context context) {
-        Options options = new Options();
-        showLoading(context, options);
+    public static void showLoading(@NonNull Activity activity) {
+        showLoading(activity, new Options());
     }
 
-    public static void showLoading(@NonNull Context context, @NonNull Options options) {
+    public static void showLoading(@NonNull Activity activity, @NonNull Options options) {
         hide();
-
-        loadingDialog = new InternalDialog(context, options);
-        loadingDialog.show();
+        dialog = new InternalLoadingDialog(activity, options);
+        // 主动取消情况下，清除引用
+        dialog.setOnDismissListener(d -> dialog = null);
+        dialog.show();
     }
 
     public static void hide() {
-        if (loadingDialog != null) {
-            loadingDialog.dismiss();
-            loadingDialog = null;
+        if (dialog != null) {
+            dialog.setOnDismissListener(null);
+            dialog.dismiss();
+            dialog = null;
         }
     }
 
-    public static boolean isShowing() {
-        if (loadingDialog != null) {
-            return loadingDialog.isShowing();
-        }
-        return false;
-    }
-
-    public static class Options {
-        @LayoutRes
-        public int loadingRes;
-        @StringRes
-        public int messageRes;
-        public String message;
-        public boolean cancelable;
-        public DialogInterface.OnShowListener onShowListener;
-        public DialogInterface.OnDismissListener onDismissListener;
-    }
-
-    public static class InternalDialog extends AppCompatDialog {
+    /**
+     * 在显示期间禁止屏幕旋转，关闭后恢复
+     */
+    public static final class InternalLoadingDialog extends AppCompatDialog {
+        private final Activity activity;
         private final Options options;
+        private int orientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
 
-        public InternalDialog(@NonNull Context context, @NonNull Options options) {
-            super(context);
+        public InternalLoadingDialog(@NonNull Activity activity, @NonNull Options options) {
+            super(activity);
+            this.activity = activity;
             this.options = options;
-        }
-
-        public InternalDialog(@NonNull Context context, int theme, @NonNull Options options) {
-            super(context, theme);
-            this.options = options;
+            setCancelable(options.cancelable);
+            setCanceledOnTouchOutside(options.touchOutsideCancelable);
         }
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(options.loadingRes != 0 ? options.loadingRes : LOADING_VIEW);
-            setCancelable(options.cancelable);
-            if (options.onShowListener != null) {
-                setOnShowListener(options.onShowListener);
-            }
-            if (options.onDismissListener != null) {
-                setOnDismissListener(options.onDismissListener);
-            }
-
-            TextView textView = findViewById(R.id.loading_message);
-            if (textView != null) {
-                if (options.message != null) {
+            setContentView(options.loading != 0 ? options.loading : R.layout.loading_dialog);
+            if (options.message != 0) {
+                TextView textView = findViewById(R.id.loading_message);
+                if (textView != null) {
                     textView.setText(options.message);
-                } else if (options.messageRes != 0) {
-                    textView.setText(options.messageRes);
+                }
+            }
+            if (options.icon != 0) {
+                ProgressBar progressBar = findViewById(R.id.loading_progress_bar);
+                if (progressBar != null) {
+                    progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(activity, options.icon));
+                    progressBar.setIndeterminateTintList(null);
                 }
             }
         }
+
+        @Override
+        public void show() {
+            orientation = activity.getRequestedOrientation();
+            if (orientation != ActivityInfo.SCREEN_ORIENTATION_LOCKED) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+            }
+            super.show();
+        }
+
+        @Override
+        public void dismiss() {
+            if (orientation != ActivityInfo.SCREEN_ORIENTATION_LOCKED) {
+                activity.setRequestedOrientation(orientation);
+                orientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+            }
+            super.dismiss();
+        }
+    }
+
+    public static class Options {
+        /**
+         * 自定义布局
+         */
+        @LayoutRes
+        public int loading;
+        /**
+         * 提示消息
+         */
+        @StringRes
+        public int message;
+        /**
+         * 提示图标：IndeterminateDrawable
+         */
+        @DrawableRes
+        public int icon;
+        public boolean cancelable = true;
+        public boolean touchOutsideCancelable = false;
     }
 }

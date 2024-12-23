@@ -1,83 +1,104 @@
 package androidz.util;
 
-import android.util.Log;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Comparator;
-
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * @see android.os.FileUtils
  */
 public final class FileUtil {
-    private static final String TAG = "FileUtil";
+    private static final int KB = 1024;
+    private static final int BUFFER_SIZE = 1024 * 8;
 
-    /**
-     * 根据文件路径获取文件
-     */
+    public static String readString(@NonNull File file) throws IOException {
+        return toByteArrayOutputStream(file).toString();
+    }
+
+    public static String readString(@NonNull File file, @NonNull Charset charset) throws IOException {
+        if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            return toByteArrayOutputStream(file).toString(charset);
+        } else {
+            //noinspection CharsetObjectCanBeUsed
+            return toByteArrayOutputStream(file).toString(charset.name());
+        }
+    }
+
+    public static byte[] readAllBytes(@NonNull File file) throws IOException {
+        return toByteArrayOutputStream(file).toByteArray();
+    }
+
+    private static ByteArrayOutputStream toByteArrayOutputStream(@NonNull File file) throws IOException {
+        FileInputStream fin = new FileInputStream(file);
+        int available = fin.available();
+        ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(KB, available));
+        try (BufferedInputStream in = new BufferedInputStream(fin)) {
+            byte[] buffer = new byte[Math.max(available / 2, BUFFER_SIZE)];
+            int len;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+        }
+        return out;
+    }
+
+    public static void write(@NonNull File file, @NonNull String str) throws IOException {
+        write(file, str.getBytes());
+    }
+
+    public static void write(@NonNull File file, @NonNull String str, @NonNull Charset charset) throws IOException {
+        write(file, str.getBytes(charset));
+    }
+
+    public static void write(@NonNull File file, @NonNull byte[] bytes) throws IOException {
+        try (FileOutputStream fout = new FileOutputStream(file);
+             BufferedOutputStream out = new BufferedOutputStream(fout)) {
+            int len = bytes.length;
+            int rem = len;
+            while (rem > 0) {
+                int n = Math.min(rem, BUFFER_SIZE);
+                out.write(bytes, (len - rem), n);
+                rem -= n;
+            }
+        }
+    }
+
     @Nullable
-    public static File getFileByPath(String filePath) {
+    public static File getFileByPath(@Nullable String filePath) {
         return filePath == null || filePath.isBlank() ? null : new File(filePath);
     }
 
-    public static boolean isFileExists(File file) {
-        if (file == null) return false;
-        return file.exists();
-    }
-
-    public static boolean isFileExists(String filePath) {
-        return isFileExists(getFileByPath(filePath));
-    }
-
-    public static boolean isDirExists(File dir) {
-        return dir != null && dir.exists() && dir.isDirectory();
-    }
-
-    public static boolean isDirExists(String dirPath) {
-        return isDirExists(getFileByPath(dirPath));
-    }
-
-    public static boolean createDir(String dirPath) {
-        return createDir(getFileByPath(dirPath));
-    }
-
-    public static boolean createDir(File file) {
-        if (file == null) return false;
-        return file.exists() ? file.isDirectory() : file.mkdirs();
-    }
-
-    public static boolean rename(String filePath, String newName) {
-        return rename(getFileByPath(filePath), newName);
-    }
-
-    public static boolean rename(File file, String newName) {
-        if (file == null) return false;
+    public static boolean rename(@NonNull File file, @NonNull String newName) {
         if (!file.exists()) return false;
-        if (newName == null || newName.isBlank()) return false;
+        if (newName.isBlank()) return false;
         if (newName.equals(file.getName())) return true;
         File newFile = new File(file.getParent(), newName);
         return !newFile.exists() && file.renameTo(newFile);
     }
 
-    public static boolean delete(String filePath) {
-        return delete(getFileByPath(filePath));
+    public static boolean delete(@NonNull String filePath) {
+        File file = getFileByPath(filePath);
+        if (file == null) return false;
+        return delete(file);
     }
 
-    /**
-     * Delete the File or Directory
-     */
-    public static boolean delete(File file) {
-        if (file == null) return false;
+    public static boolean delete(@NonNull File file) {
         if (file.isDirectory()) {
             return deleteDir(file);
         }
@@ -88,9 +109,6 @@ public final class FileUtil {
         return !file.exists() || (file.isFile() && file.delete());
     }
 
-    /**
-     * Delete directory.
-     */
     public static boolean deleteDir(@NonNull File dir) {
         if (deleteContents(dir)) {
             return dir.delete();
@@ -100,14 +118,7 @@ public final class FileUtil {
     }
 
     /**
-     * Delete only files in directory.
-     */
-    public static boolean deleteFiles(@NonNull File dir) {
-        return deleteContents(dir, File::isFile);
-    }
-
-    /**
-     * Delete all files in directory.
+     * 删除目录中的所有文件
      */
     public static boolean deleteContents(@NonNull File dir) {
         File[] files = dir.listFiles();
@@ -125,9 +136,6 @@ public final class FileUtil {
         return success;
     }
 
-    /**
-     * Delete all files that satisfy the filter in directory.
-     */
     public static boolean deleteContents(@NonNull File dir, @NonNull FileFilter filter) {
         File[] files = dir.listFiles();
         boolean success = true;
@@ -147,38 +155,29 @@ public final class FileUtil {
     }
 
     /**
-     * Delete older files in a directory until only those matching the given constraints remain.
-     *
-     * @param minCount Always keep at least this many files.
-     * @param minAgeMs Always keep files younger than this age, in milliseconds.
-     * @return if any files were deleted.
+     * @param minCount 至少保留多少个文件
+     * @param minAgeMs 距离上次修改多久后才删除
+     * @return 是否有文件被删除
      */
-    public static boolean deleteOlderFiles(@NonNull File dir, @IntRange(from = 0) int minCount, long minAgeMs) {
+    public static boolean deleteOlderFiles(@NonNull File dir, int minCount, long minAgeMs) {
         if (minCount < 0 || minAgeMs < 0) {
-            throw new IllegalArgumentException("Constraints must be positive or 0");
+            throw new IllegalArgumentException("Arguments must be positive or 0");
         }
 
         final File[] files = dir.listFiles();
         if (files == null) return false;
 
         // Sort with newest files first
-        Arrays.sort(files, new Comparator<File>() {
-            @Override
-            public int compare(File lhs, File rhs) {
-                return Long.compare(rhs.lastModified(), lhs.lastModified());
-            }
-        });
+        Arrays.sort(files, (lhs, rhs) -> Long.compare(rhs.lastModified(), lhs.lastModified()));
 
         // Keep at least minCount files
         boolean deleted = false;
         for (int i = minCount; i < files.length; i++) {
             final File file = files[i];
-
             // Keep files newer than minAgeMs
             final long age = System.currentTimeMillis() - file.lastModified();
             if (age > minAgeMs) {
                 if (file.delete()) {
-                    Log.d(TAG, "Deleted old file " + file);
                     deleted = true;
                 }
             }
@@ -197,9 +196,7 @@ public final class FileUtil {
     }
 
     /**
-     * Compute the digest of the given file using the requested algorithm.
-     *
-     * @param algorithm Any valid algorithm accepted by {@link MessageDigest#getInstance(String)}.
+     * @param algorithm MD5
      */
     @NonNull
     public static byte[] digest(@NonNull File file, @NonNull String algorithm)

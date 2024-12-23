@@ -2,12 +2,6 @@ plugins {
     id 'com.android.library'
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 android {
     namespace 'hummerx'
     compileSdk appCompileSdk
@@ -31,19 +25,22 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
     // Hummer
     implementation 'io.github.didi.hummer:hummer:0.4.7'
     annotationProcessor 'io.github.didi.hummer:hummer-compiler:0.2.17'
-    testImplementation 'io.github.didi.hummer:hummer-dev-tools:0.4.7'
-
-    // resolve support migrate androidx
+    debugImplementation 'io.github.didi.hummer:hummer-dev-tools:0.4.7'
+    // migrate androidx
     implementation 'com.zhpan.library:bannerview:2.7.5'
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'
     implementation 'com.github.bumptech.glide:glide:4.16.0'

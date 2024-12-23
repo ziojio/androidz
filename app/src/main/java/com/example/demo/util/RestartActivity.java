@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.demo.ui.main.MainActivity;
-
 import androidx.annotation.Nullable;
+
+import com.example.demo.activity.main.MainActivity;
 
 /**
  * author : Android 轮子哥

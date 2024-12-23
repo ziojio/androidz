@@ -79,7 +79,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.example.demo.ui.edit.FastKeyboardView
+    <com.example.demo.activity.edit.FastKeyboardView
         android:id="@+id/keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

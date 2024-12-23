@@ -4,7 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
     <!-- Request legacy Bluetooth permissions on older devices. -->
     <uses-permission
         android:name="android.permission.BLUETOOTH"
@@ -18,19 +24,15 @@
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
-        tools:targetApi="s" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-
+        tools:targetApi="31" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:name="com.example.demo.UIApp"
@@ -42,14 +44,14 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.UIApp"
         android:usesCleartextTraffic="true"
-        tools:replace="android:supportsRtl"
+        tools:replace="android:label,android:icon,android:supportsRtl"
         tools:targetApi="s">
 
         <activity
-            android:name="com.example.demo.ui.main.MainActivity"
+            android:name="com.example.demo.activity.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -68,26 +70,26 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.demo.ui.base.MultiFragmentActivity" />
-        <activity android:name="com.example.demo.ui.activity.DataBaseActivity" />
-        <activity android:name="com.example.demo.ui.activity.RxJavaActivity" />
-        <activity android:name="com.example.demo.ui.activity.AnimationActivity" />
-        <activity android:name="com.example.demo.ui.activity.WebSocketActivity" />
+        <activity android:name="com.example.demo.activity.MultiFragmentActivity" />
+        <activity android:name="com.example.demo.activity.DataBaseActivity" />
+        <activity android:name="com.example.demo.activity.RxJavaActivity" />
+        <activity android:name="com.example.demo.activity.AnimationActivity" />
+        <activity android:name="com.example.demo.activity.WebSocketActivity" />
         <!-- <activity android:name="com.example.demo.ui.activity.WaterMarkActivity" /> -->
-        <activity android:name="com.example.demo.ui.activity.AidlActivity" />
+        <activity android:name="com.example.demo.activity.AidlActivity" />
 
-        <activity android:name="com.example.demo.ui.camera.TakePictureActivity" />
-        <activity android:name="com.example.demo.ui.camera.TakeVideoActivity" />
-        <activity android:name="com.example.demo.ui.camera.CameraActivity" />
-        <activity android:name="com.example.demo.ui.camera.Camera2Activity" />
-        <activity android:name="com.example.demo.ui.camera.AudioActivity" />
-        <activity android:name="com.example.demo.ui.bluetooth.BluetoothActivity" />
-        <activity android:name="com.example.demo.ui.bluetooth.BluetoothLeActivity" />
-        <activity android:name="com.example.demo.ui.databinding.DataBindingActivity" />
-        <activity android:name="com.example.demo.ui.http.HttpActivity" />
-        <activity android:name="com.example.demo.ui.edit.EditActivity" />
-        <activity android:name="com.example.demo.ui.paging.Paging3Activity" />
-        <activity android:name="com.example.demo.ui.ktx.KotlinActivity" />
+        <activity android:name="com.example.demo.activity.camera.TakePictureActivity" />
+        <activity android:name="com.example.demo.activity.camera.TakeVideoActivity" />
+        <activity android:name="com.example.demo.activity.camera.CameraActivity" />
+        <activity android:name="com.example.demo.activity.camera.Camera2Activity" />
+        <activity android:name="com.example.demo.activity.camera.AudioActivity" />
+        <activity android:name="com.example.demo.activity.bluetooth.BluetoothActivity" />
+        <activity android:name="com.example.demo.activity.bluetooth.BluetoothLeActivity" />
+        <activity android:name="com.example.demo.activity.databinding.DataBindingActivity" />
+        <activity android:name="com.example.demo.activity.HttpActivity" />
+        <activity android:name="com.example.demo.activity.edit.EditActivity" />
+        <activity android:name="com.example.demo.activity.paging.Paging3Activity" />
+        <activity android:name="com.example.demo.ktx.KotlinActivity" />
 
         <service android:name="com.example.demo.service.AidlService" />
         <service
