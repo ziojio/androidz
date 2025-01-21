@@ -37,8 +37,7 @@ public final class FocusUtil {
     }
 
     private static void focusParent(@NonNull View view) {
-        if (view.getParent() instanceof ViewGroup) {
-            ViewGroup parent = (ViewGroup) view.getParent();
+        if (view.getParent() instanceof ViewGroup parent) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 parent.setDefaultFocusHighlightEnabled(false);
             }

@@ -20,22 +20,14 @@ public final class IoUtil {
     }
 
     public static byte[] readAllBytes(@NonNull File file) throws IOException {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            try (FileInputStream fis = new FileInputStream(file)) {
-                return fis.readAllBytes();
+        try (FileInputStream fis = new FileInputStream(file);
+             ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+            int len;
+            while ((len = fis.read(buffer)) != -1) {
+                bao.write(buffer, 0, len);
             }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return Files.readAllBytes(file.toPath());
-        } else {
-            try (FileInputStream fis = new FileInputStream(file);
-                 ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
-                byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-                int len;
-                while ((len = fis.read(buffer)) != -1) {
-                    bao.write(buffer, 0, len);
-                }
-                return bao.toByteArray();
-            }
+            return bao.toByteArray();
         }
     }
 

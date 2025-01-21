@@ -57,10 +57,10 @@ public class UIApp extends Application {
 
         MMKV.initialize(this);
         appDB = AppDB.create(this);
-        long time = SystemClock.elapsedRealtime() - start;
 
         registerDefaultNetworkCallback();
 
+        long time = SystemClock.elapsedRealtime() - start;
         Log.d("UIApp", "onCreate cost " + time + "ms");
     }
 

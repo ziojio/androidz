@@ -1,4 +1,4 @@
-package hummerx.ui;
+package hummerx;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,11 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.didi.hummer.HummerRender;
 import com.didi.hummer.adapter.navigator.NavPage;
@@ -26,7 +21,11 @@ import com.didi.hummer.lifecycle.IFullLifeCycle;
 import com.didi.hummer.render.component.view.HMBase;
 import com.didi.hummer.render.style.HummerLayout;
 
-import hummerx.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+
 
 @Component("HMDialog")
 public class HummerDialog extends DialogFragment implements IFullLifeCycle {
@@ -147,27 +146,6 @@ public class HummerDialog extends DialogFragment implements IFullLifeCycle {
         setWindowStyle(requireDialog());
     }
 
-    protected void setWindowStyle(Dialog dialog) {
-        Log.d(TAG, String.format("width=%s, height=%s", width, height));
-        if (width != 0) {
-            if (width > 0 && width < 1) {
-                width = requireContext().getResources().getDisplayMetrics().widthPixels * width;
-            }
-        }
-        if (height != 0) {
-            if (height > 0 && height < 1) {
-                height = requireContext().getResources().getDisplayMetrics().heightPixels * height;
-            }
-        }
-        dialog.getWindow().setLayout((int) width, (int) height);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mView = null;
-    }
-
     /**
      * 初始化Hummer上下文，即JS运行环境
      */
@@ -215,6 +193,27 @@ public class HummerDialog extends DialogFragment implements IFullLifeCycle {
      */
     protected void onPageRenderFailed(@NonNull Exception e) {
 
+    }
+
+    protected void setWindowStyle(Dialog dialog) {
+        Log.d(TAG, String.format("width=%s, height=%s", width, height));
+        if (width != 0) {
+            if (width > 0 && width < 1) {
+                width = requireContext().getResources().getDisplayMetrics().widthPixels * width;
+            }
+        }
+        if (height != 0) {
+            if (height > 0 && height < 1) {
+                height = requireContext().getResources().getDisplayMetrics().heightPixels * height;
+            }
+        }
+        dialog.getWindow().setLayout((int) width, (int) height);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mView = null;
     }
 
     @Override
