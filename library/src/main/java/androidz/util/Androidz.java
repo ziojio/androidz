@@ -2,18 +2,20 @@ package androidz.util;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import androidx.annotation.NonNull;
 
 
 public final class Androidz {
-    static Context appContext;
-    static boolean debuggable;
+    private static final ActivityStackManager activityManager = new ActivityStackManager();
+    private static Context appContext;
+    private static boolean debuggable;
 
     public static void initialize(@NonNull Context context) {
         appContext = context.getApplicationContext();
-        debuggable = AppUtil.isDebuggable();
-        ActivityStackManager.getInstance().register((Application) context);
+        debuggable = (appContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        activityManager.register((Application) appContext);
     }
 
     @NonNull
@@ -29,5 +31,9 @@ public final class Androidz {
 
     public static void setDebuggable(boolean debuggable) {
         Androidz.debuggable = debuggable;
+    }
+
+    public static ActivityStackManager getActivityManager() {
+        return activityManager;
     }
 }

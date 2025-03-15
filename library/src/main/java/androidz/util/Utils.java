@@ -2,12 +2,32 @@ package androidz.util;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Utils
+ */
 public final class Utils {
+
+    public static boolean isSingleClick(@NonNull View view) {
+        return isSingleClick(view, 1000);
+    }
+
+    /**
+     * @param duration millisecond
+     */
+    public static boolean isSingleClick(@NonNull View view, int duration) {
+        Object time = view.getTag(R.id.view_tag_click_time);
+        long lastClickTime = time == null ? 0 : (long) time;
+        long nowClickTime = SystemClock.uptimeMillis();
+        view.setTag(R.id.view_tag_click_time, nowClickTime);
+        return nowClickTime - lastClickTime > duration;
+    }
 
     public static float dp2px(@NonNull Context context, float value) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();

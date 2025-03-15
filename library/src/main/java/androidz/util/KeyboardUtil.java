@@ -1,5 +1,7 @@
 package androidz.util;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -10,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 
 public final class KeyboardUtil {
@@ -59,27 +59,28 @@ public final class KeyboardUtil {
         View content = activity.findViewById(android.R.id.content);
         int height = content.getRootView().getHeight();
         Rect r = new Rect();
-        content.getWindowVisibleDisplayFrame(r); // 获取应用的显示区域
-        int heightDiff = height - (r.bottom - r.top); // 未判断状态栏的高度
+        content.getWindowVisibleDisplayFrame(r); // 获取应用内容显示区域
+        int heightDiff = height - (r.bottom - r.top); // 未处理（显示状态栏时）状态栏的高度
         return heightDiff > height / 4;
     }
 
     /**
-     * 点击输入框外隐藏软键盘，需重写 dispatchTouchEvent 处理点击事件
+     * 点击输入框外隐藏软键盘，需重写 dispatchTouchEvent 监听所有的触摸事件
      */
     public static void hideSoftKeyboardByClick(@NonNull MotionEvent event, @NonNull View focusView) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (!isClickInView(focusView, event)) {
+            if (!isClickView(focusView, event)) {
                 hideSoftKeyboard(focusView);
             }
         }
     }
 
-    private static boolean isClickInView(@NonNull View view, @NonNull MotionEvent event) {
-        int[] l = {0, 0};
-        view.getLocationInWindow(l);
-        int left = l[0], top = l[1], bottom = top + view.getHeight(), right = left + view.getWidth();
-        return event.getX() > left && event.getX() < right && event.getY() > top && event.getY() < bottom;
+    private static boolean isClickView(@NonNull View view, @NonNull MotionEvent event) {
+        int[] point = {0, 0};
+        view.getLocationInWindow(point);
+        int left = point[0], top = point[1], right = left + view.getWidth(), bottom = top + view.getHeight();
+        float x = event.getX(), y = event.getY();
+        return x > left && x < right && y > top && y < bottom;
     }
 
 }

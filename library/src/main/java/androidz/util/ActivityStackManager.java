@@ -6,43 +6,39 @@ import android.app.Application.ActivityLifecycleCallbacks;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.Stack;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.Stack;
 
 
 public final class ActivityStackManager implements ActivityLifecycleCallbacks {
     private static final String TAG = "ActivityStackManager";
 
-    private static final class Instance {
-        private static final ActivityStackManager INSTANCE = new ActivityStackManager();
-    }
-
-    public static ActivityStackManager getInstance() {
-        return Instance.INSTANCE;
-    }
-
     private final Stack<Activity> stack = new Stack<>();
     private Application application;
 
-    public boolean registered() {
+    public void register(@NonNull Application app) {
+        synchronized (this) {
+            if (application == null) {
+                application = app;
+                app.registerActivityLifecycleCallbacks(this);
+            }
+        }
+    }
+
+    public void unregister() {
+        synchronized (this) {
+            if (application != null) {
+                application.unregisterActivityLifecycleCallbacks(this);
+                application = null;
+                stack.clear();
+            }
+        }
+    }
+
+    public boolean isRegistered() {
         return application != null;
-    }
-
-    public synchronized void register(@NonNull Application app) {
-        if (application == null) {
-            application = app;
-            app.registerActivityLifecycleCallbacks(this);
-        }
-    }
-
-    public synchronized void unregister() {
-        if (application != null) {
-            application.unregisterActivityLifecycleCallbacks(this);
-            application = null;
-            stack.clear();
-        }
     }
 
     public Activity getTopActivity() {
@@ -81,6 +77,7 @@ public final class ActivityStackManager implements ActivityLifecycleCallbacks {
             Log.d(TAG, "onActivityResumed: " + activity);
         }
         if (activity != stack.peek()) {
+            // 更新栈顶元素为当前显示活动
             stack.remove(activity);
             stack.push(activity);
         }
@@ -102,7 +99,6 @@ public final class ActivityStackManager implements ActivityLifecycleCallbacks {
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
-
     }
 
     @Override
@@ -119,6 +115,6 @@ public final class ActivityStackManager implements ActivityLifecycleCallbacks {
         for (Activity activity : stack) {
             Log.d(TAG, "|\t" + activity);
         }
-        Log.d(TAG, "------------ stack end ------------");
+        Log.d(TAG, "----------- stack end -------------");
     }
 }

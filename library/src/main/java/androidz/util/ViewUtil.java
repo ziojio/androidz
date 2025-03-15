@@ -1,5 +1,7 @@
 package androidz.util;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -8,10 +10,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 
-
-public final class FocusUtil {
+public final class ViewUtil {
 
     public static void requestFocus(@NonNull View view) {
         view.post(view::requestFocus);

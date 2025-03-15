@@ -1,25 +1,26 @@
 package androidz.util;
 
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatDialog;
-
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+import androidx.core.content.ContextCompat;
 
 
 public final class LoadingDialog {
 
     @SuppressLint("StaticFieldLeak")
     private static InternalDialog dialog;
-
 
     public static void showLoading(@NonNull Activity activity) {
         showLoading(activity, new Options());
@@ -28,48 +29,47 @@ public final class LoadingDialog {
     public static void showLoading(@NonNull Activity activity, @NonNull Options options) {
         hide();
         dialog = new InternalDialog(activity, options);
+        // 主动取消情况下不持有弹窗
+        dialog.setOnDismissListener(d -> dialog = null);
         dialog.show();
     }
 
     public static void hide() {
         if (dialog != null) {
+            dialog.setOnDismissListener(null);
             dialog.dismiss();
             dialog = null;
         }
     }
 
-    public static boolean isShowing() {
-        if (dialog != null) {
-            return dialog.isShowing();
-        }
-        return false;
-    }
-
     public static final class InternalDialog extends AppCompatDialog {
-        private final Options options;
         private final Activity activity;
+        private final Options options;
         private int orientation = SCREEN_ORIENTATION_LOCKED;
 
         public InternalDialog(@NonNull Activity activity, @NonNull Options options) {
             super(activity);
             this.activity = activity;
             this.options = options;
-            setOnShowListener(options.onShow);
-            setOnDismissListener(options.onHide);
+            setCancelable(options.cancelable);
+            setCanceledOnTouchOutside(options.touchOutsideCancelable);
         }
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(options.loadingRes != 0 ? options.loadingRes : R.layout.loading_dialog);
-            setCancelable(options.cancelable);
-
-            TextView textView = findViewById(R.id.loading_message);
-            if (textView != null) {
-                if (options.message != null) {
+            setContentView(options.loading != 0 ? options.loading : R.layout.loading_dialog);
+            if (options.message != 0) {
+                TextView textView = findViewById(R.id.loading_message);
+                if (textView != null) {
                     textView.setText(options.message);
-                } else if (options.messageRes != 0) {
-                    textView.setText(options.messageRes);
+                }
+            }
+            if (options.icon != 0) {
+                ProgressBar progressBar = findViewById(R.id.loading_progress_bar);
+                if (progressBar != null) {
+                    progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(activity, options.icon));
+                    progressBar.setIndeterminateTintList(null);
                 }
             }
         }
@@ -98,33 +98,18 @@ public final class LoadingDialog {
          * 自定义布局
          */
         @LayoutRes
-        public int loadingRes;
+        public int loading;
         /**
          * 提示消息
          */
         @StringRes
-        public int messageRes;
-        public String message;
-        public boolean cancelable;
-        public OnShowListener onShow;
-        public OnHideListener onHide;
-    }
-
-    public interface OnShowListener extends DialogInterface.OnShowListener {
-        @Override
-        default void onShow(DialogInterface dialog) {
-            onShow();
-        }
-
-        void onShow();
-    }
-
-    public interface OnHideListener extends DialogInterface.OnDismissListener {
-        @Override
-        default void onDismiss(DialogInterface dialog) {
-            onHide();
-        }
-
-        void onHide();
+        public int message;
+        /**
+         * 提示图标：IndeterminateDrawable
+         */
+        @DrawableRes
+        public int icon;
+        public boolean cancelable = true;
+        public boolean touchOutsideCancelable = false;
     }
 }

@@ -1,5 +1,8 @@
 package androidz.util;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+import static java.util.Objects.requireNonNull;
+
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -8,9 +11,6 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-
-import static androidx.core.content.ContextCompat.getSystemService;
-import static java.util.Objects.requireNonNull;
 
 
 public final class NetworkUtil {
@@ -52,10 +52,10 @@ public final class NetworkUtil {
     }
 
     /**
-     * 网络具有强制门户, 需要登陆
+     * 网络具有强制门户（需要登陆）
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static boolean isCaptivePortalNetwork() {
+    public static boolean isCaptivePortal() {
         ConnectivityManager manager = getConnectivityManager();
         Network network = manager.getActiveNetwork();
         if (network != null) {
