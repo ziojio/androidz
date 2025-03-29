@@ -7,16 +7,17 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 
-import com.example.demo.databinding.ActivityWebviewBinding;
-import com.example.demo.ui.base.BaseActivity;
-
-import java.util.concurrent.TimeUnit;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 import androidx.webkit.WebViewCompat;
+
+import com.example.demo.activity.BaseActivity;
+import com.example.demo.databinding.ActivityWebviewBinding;
+
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import timber.log.Timber;
@@ -85,8 +86,8 @@ public class WebActivity extends BaseActivity {
     }
 
     private void initWebView(WebView webview) {
-        WebViewUtil.initWebView(webview);
-        webview.setWebViewClient(new AppWebViewClient(WebViewUtil.createWebViewAssetLoader(this)));
+        WebUtil.initWebView(webview);
+        webview.setWebViewClient(new AppWebViewClient(WebUtil.createWebViewAssetLoader(this)));
         webview.setWebChromeClient(new AppWebChromeClient());
     }
 
@@ -105,7 +106,7 @@ public class WebActivity extends BaseActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(@NonNull WebView view, @NonNull WebResourceRequest request) {
-            if (WebViewUtil.interceptUrl(request.getUrl().toString())) {
+            if (WebUtil.interceptUrl(request.getUrl().toString())) {
                 return true;
             } else return super.shouldOverrideUrlLoading(view, request);
         }

@@ -5,11 +5,11 @@
 
         <variable
             name="handler"
-            type="com.example.demo.ui.databinding.DataBindingActivity.EventHandler" />
+            type="com.example.demo.activity.databinding.DataBindingActivity" />
 
         <variable
             name="model"
-            type="com.example.demo.ui.databinding.BindingViewModel" />
+            type="com.example.demo.activity.databinding.BindingViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,7 +41,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{handler::openDialog}"
+                android:onClick="@{handler::onClick}"
                 android:text="openPage" />
 
         </com.google.android.flexbox.FlexboxLayout>
