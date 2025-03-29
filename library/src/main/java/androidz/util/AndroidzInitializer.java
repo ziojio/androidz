@@ -2,11 +2,11 @@ package androidz.util;
 
 import android.content.Context;
 
-import java.util.Collections;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.startup.Initializer;
+
+import java.util.Collections;
+import java.util.List;
 
 
 public final class AndroidzInitializer implements Initializer<AndroidzInitializer> {

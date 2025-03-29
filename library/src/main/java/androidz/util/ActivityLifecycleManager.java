@@ -1,7 +1,6 @@
 package androidz.util;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,90 +8,90 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.Stack;
+import java.util.ArrayList;
 
+/**
+ * 1.获取最近显示的Activity
+ * 2.结束所有Activity
+ * 3.判断是否处于后台
+ */
+public final class ActivityLifecycleManager implements ActivityLifecycleCallbacks {
+    private static final String TAG = "[ActivityManager]";
+    boolean debug;
 
-public final class ActivityStackManager implements ActivityLifecycleCallbacks {
-    private static final String TAG = "ActivityStackManager";
+    private final ArrayList<Activity> stack;
+    private final ArrayList<Activity> startedStack;
 
-    private final Stack<Activity> stack = new Stack<>();
-    private Application application;
-
-    public void register(@NonNull Application app) {
-        synchronized (this) {
-            if (application == null) {
-                application = app;
-                app.registerActivityLifecycleCallbacks(this);
-            }
-        }
+    public ActivityLifecycleManager() {
+        stack = new ArrayList<>(8);
+        startedStack = new ArrayList<>(4);
     }
 
-    public void unregister() {
-        synchronized (this) {
-            if (application != null) {
-                application.unregisterActivityLifecycleCallbacks(this);
-                application = null;
-                stack.clear();
-            }
-        }
-    }
-
-    public boolean isRegistered() {
-        return application != null;
+    public boolean isBackground() {
+        return this.startedStack.isEmpty();
     }
 
     public Activity getTopActivity() {
-        return stack.peek();
+        int size = stack.size();
+        if (size > 0) {
+            return stack.get(size - 1);
+        }
+        return null;
     }
 
     public void finishAllActivity() {
-        while (!stack.isEmpty()) {
-            stack.pop().finish();
+        for (int size = stack.size(); size > 0; size = stack.size()) {
+            Activity activity = stack.remove(size - 1);
+            activity.finish();
         }
     }
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        stack.push(activity);
-        if (Androidz.isDebuggable()) {
+        stack.add(activity);
+        if (debug) {
             Bundle bundle = activity.getIntent().getExtras();
             if (bundle != null) {
-                bundle.get("");
+                bundle.size();
+                Log.d(TAG, "onActivityCreated: " + activity + " " + bundle);
+            } else {
+                Log.d(TAG, "onActivityCreated: " + activity);
             }
-            Log.d(TAG, "onActivityCreated: " + activity + " " + bundle);
             printActivityStack();
         }
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        if (Androidz.isDebuggable()) {
+        startedStack.add(activity);
+        if (debug) {
             Log.d(TAG, "onActivityStarted: " + activity);
         }
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
-        if (Androidz.isDebuggable()) {
-            Log.d(TAG, "onActivityResumed: " + activity);
-        }
-        if (activity != stack.peek()) {
-            // 更新栈顶元素为当前显示活动
+        if (activity != stack.get(stack.size() - 1)) {
+            // 更新当前显示的Activity
             stack.remove(activity);
-            stack.push(activity);
+            stack.add(activity);
+        }
+        if (debug) {
+            Log.d(TAG, "onActivityResumed: " + activity);
         }
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        if (Androidz.isDebuggable()) {
+        if (debug) {
             Log.d(TAG, "onActivityPaused: " + activity);
         }
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-        if (Androidz.isDebuggable()) {
+        startedStack.remove(activity);
+        if (debug) {
             Log.d(TAG, "onActivityStopped: " + activity);
         }
     }
@@ -104,17 +103,17 @@ public final class ActivityStackManager implements ActivityLifecycleCallbacks {
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         stack.remove(activity);
-        if (Androidz.isDebuggable()) {
+        if (debug) {
             Log.d(TAG, "onActivityDestroyed: " + activity);
             printActivityStack();
         }
     }
 
     private void printActivityStack() {
-        Log.d(TAG, "----------- stack start -----------");
+        Log.d(TAG, "--------------------------------");
         for (Activity activity : stack) {
             Log.d(TAG, "|\t" + activity);
         }
-        Log.d(TAG, "----------- stack end -------------");
+        Log.d(TAG, "--------------------------------");
     }
 }

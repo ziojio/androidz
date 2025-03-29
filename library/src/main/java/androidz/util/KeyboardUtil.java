@@ -1,7 +1,5 @@
 package androidz.util;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Activity;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -9,6 +7,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -28,7 +27,7 @@ public final class KeyboardUtil {
                 return;
             }
         }
-        InputMethodManager imm = getSystemService(view.getContext(), InputMethodManager.class);
+        InputMethodManager imm = ContextCompat.getSystemService(view.getContext(), InputMethodManager.class);
         if (imm != null) {
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
@@ -46,7 +45,7 @@ public final class KeyboardUtil {
                 return;
             }
         }
-        InputMethodManager imm = getSystemService(view.getContext(), InputMethodManager.class);
+        InputMethodManager imm = ContextCompat.getSystemService(view.getContext(), InputMethodManager.class);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }

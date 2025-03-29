@@ -44,8 +44,11 @@ public final class Utils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return TypedValue.deriveDimension(TypedValue.COMPLEX_UNIT_DIP, pixelValue, metrics);
         } else {
-            if (metrics.density == 0f) return 0f;
-            else return pixelValue / metrics.density;
+            if (metrics.density == 0f) {
+                return 0f;
+            } else {
+                return pixelValue / metrics.density;
+            }
         }
     }
 
@@ -54,8 +57,11 @@ public final class Utils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return TypedValue.deriveDimension(TypedValue.COMPLEX_UNIT_SP, pixelValue, metrics);
         } else {
-            if (metrics.scaledDensity == 0f) return 0f;
-            else return pixelValue / metrics.scaledDensity;
+            if (metrics.scaledDensity == 0f) {
+                return 0f;
+            } else {
+                return pixelValue / metrics.scaledDensity;
+            }
         }
     }
 

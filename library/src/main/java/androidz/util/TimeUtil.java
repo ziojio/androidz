@@ -1,11 +1,11 @@
 package androidz.util;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
 
 /**
  * @see SimpleDateFormat 格式化字符的含义

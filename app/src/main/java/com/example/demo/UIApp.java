@@ -11,6 +11,8 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.demo.database.room.AppDB;
 import com.example.demo.log.FileLogTree;
 import com.example.demo.log.LogUtil;
@@ -19,7 +21,6 @@ import com.tencent.mmkv.MMKV;
 import java.io.File;
 import java.util.Date;
 
-import androidx.annotation.NonNull;
 import androidz.util.AppUtil;
 import dagger.hilt.android.HiltAndroidApp;
 import timber.log.Timber;

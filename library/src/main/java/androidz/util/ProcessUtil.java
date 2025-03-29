@@ -10,11 +10,11 @@ import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.lang.reflect.Method;
+import java.util.List;
 
 
 public final class ProcessUtil {

@@ -72,7 +72,7 @@ public final class AppUtil {
     }
 
     /**
-     * directory: /storage/emulated/0/android/data/package/file
+     * directory: /storage/emulated/0/android/data/package/files
      */
     public static boolean clearExternalFiles() {
         File file = Androidz.getContext().getExternalFilesDir(null);

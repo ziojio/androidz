@@ -7,6 +7,7 @@ import android.os.Build.VERSION_CODES;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -30,7 +31,6 @@ import java.util.Arrays;
  * @see android.os.FileUtils
  */
 public final class FileUtil {
-    private static final String TAG = "FileUtil";
     private static final int BUFFER_SIZE = 1024 * 8;
 
     public static String readText(@NonNull File file) throws IOException {
@@ -88,8 +88,9 @@ public final class FileUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Files.write(file.toPath(), bytes);
         } else {
-            try (OutputStream f = new FileOutputStream(file, false);
-                 OutputStream out = Channels.newOutputStream(Channels.newChannel(f))) {
+            try (FileOutputStream f = new FileOutputStream(file, false);
+                 OutputStream o = Channels.newOutputStream(Channels.newChannel(f));
+                 BufferedOutputStream out = new BufferedOutputStream(o)) {
                 int len = bytes.length;
                 int rem = len;
                 while (rem > 0) {

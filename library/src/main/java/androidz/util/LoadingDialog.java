@@ -1,9 +1,8 @@
 package androidz.util;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LOCKED;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,7 +19,7 @@ import androidx.core.content.ContextCompat;
 public final class LoadingDialog {
 
     @SuppressLint("StaticFieldLeak")
-    private static InternalDialog dialog;
+    private static InternalLoadingDialog dialog;
 
     public static void showLoading(@NonNull Activity activity) {
         showLoading(activity, new Options());
@@ -28,8 +27,8 @@ public final class LoadingDialog {
 
     public static void showLoading(@NonNull Activity activity, @NonNull Options options) {
         hide();
-        dialog = new InternalDialog(activity, options);
-        // 主动取消情况下不持有弹窗
+        dialog = new InternalLoadingDialog(activity, options);
+        // 主动取消情况下，清除引用
         dialog.setOnDismissListener(d -> dialog = null);
         dialog.show();
     }
@@ -42,12 +41,15 @@ public final class LoadingDialog {
         }
     }
 
-    public static final class InternalDialog extends AppCompatDialog {
+    /**
+     * 在显示期间禁止屏幕旋转，关闭后恢复
+     */
+    public static final class InternalLoadingDialog extends AppCompatDialog {
         private final Activity activity;
         private final Options options;
-        private int orientation = SCREEN_ORIENTATION_LOCKED;
+        private int orientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
 
-        public InternalDialog(@NonNull Activity activity, @NonNull Options options) {
+        public InternalLoadingDialog(@NonNull Activity activity, @NonNull Options options) {
             super(activity);
             this.activity = activity;
             this.options = options;
@@ -78,17 +80,17 @@ public final class LoadingDialog {
         protected void onStart() {
             super.onStart();
             orientation = activity.getRequestedOrientation();
-            if (orientation != SCREEN_ORIENTATION_LOCKED) {
-                activity.setRequestedOrientation(SCREEN_ORIENTATION_LOCKED);
+            if (orientation != ActivityInfo.SCREEN_ORIENTATION_LOCKED) {
+                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
             }
         }
 
         @Override
         protected void onStop() {
             super.onStop();
-            if (orientation != SCREEN_ORIENTATION_LOCKED) {
+            if (orientation != ActivityInfo.SCREEN_ORIENTATION_LOCKED) {
                 activity.setRequestedOrientation(orientation);
-                orientation = SCREEN_ORIENTATION_LOCKED;
+                orientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
             }
         }
     }

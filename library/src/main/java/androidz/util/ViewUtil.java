@@ -1,7 +1,5 @@
 package androidz.util;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -9,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 
 public final class ViewUtil {
@@ -29,7 +28,7 @@ public final class ViewUtil {
     public static void clearFocus(@NonNull Activity activity) {
         View currentFocus = activity.getCurrentFocus();
         if (currentFocus != null && currentFocus.getWindowToken() != null) {
-            InputMethodManager imm = getSystemService(activity, InputMethodManager.class);
+            InputMethodManager imm = ContextCompat.getSystemService(activity, InputMethodManager.class);
             if (imm != null && imm.isActive()) {
                 clearFocus(currentFocus);
             }

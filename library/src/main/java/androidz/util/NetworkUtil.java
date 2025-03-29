@@ -1,8 +1,5 @@
 package androidz.util;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-import static java.util.Objects.requireNonNull;
-
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -11,13 +8,17 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 
 public final class NetworkUtil {
 
     @NonNull
     public static ConnectivityManager getConnectivityManager() {
-        return requireNonNull(getSystemService(Androidz.getContext(), ConnectivityManager.class));
+        ConnectivityManager manager = ContextCompat.getSystemService(Androidz.getContext(), ConnectivityManager.class);
+        if (manager == null)
+            throw new IllegalStateException("ConnectivityManager not found");
+        return manager;
     }
 
     /**
