@@ -17,7 +17,7 @@ import timber.log.Timber;
 public class DataBindingActivity extends BaseActivity implements View.OnClickListener {
 
     private final State<String> state = new State<>();
-    private final State<Boolean> state2 = new State<>(false, false);
+    private final State<Boolean> state2 = new State<>(false);
     private final ObservableField<String> state3 = new ObservableField<>() {
         @Override
         public void set(String value) {
