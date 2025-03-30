@@ -8,15 +8,14 @@ import androidx.annotation.NonNull;
 
 
 public final class Androidz {
-    private static final ActivityLifecycleManager activityManager = new ActivityLifecycleManager();
     private static Context appContext;
     private static boolean debuggable;
+    private static final ActivityLifecycleManager activityManager = new ActivityLifecycleManager();
 
     public static void initialize(@NonNull Context context) {
         Application application = (Application) context.getApplicationContext();
         appContext = application;
         debuggable = (application.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        activityManager.debug = debuggable;
         application.registerActivityLifecycleCallbacks(activityManager);
     }
 
@@ -33,7 +32,6 @@ public final class Androidz {
 
     public static void setDebuggable(boolean debuggable) {
         Androidz.debuggable = debuggable;
-        activityManager.debug = debuggable;
     }
 
     public static ActivityLifecycleManager getActivityManager() {

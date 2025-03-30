@@ -17,7 +17,6 @@ import java.util.ArrayList;
  */
 public final class ActivityLifecycleManager implements ActivityLifecycleCallbacks {
     private static final String TAG = "[ActivityManager]";
-    boolean debug;
 
     private final ArrayList<Activity> stack;
     private final ArrayList<Activity> startedStack;
@@ -49,7 +48,7 @@ public final class ActivityLifecycleManager implements ActivityLifecycleCallback
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         stack.add(activity);
-        if (debug) {
+        if (Androidz.isDebuggable()) {
             Bundle bundle = activity.getIntent().getExtras();
             if (bundle != null) {
                 bundle.size();
@@ -64,7 +63,7 @@ public final class ActivityLifecycleManager implements ActivityLifecycleCallback
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
         startedStack.add(activity);
-        if (debug) {
+        if (Androidz.isDebuggable()) {
             Log.d(TAG, "onActivityStarted: " + activity);
         }
     }
@@ -76,14 +75,14 @@ public final class ActivityLifecycleManager implements ActivityLifecycleCallback
             stack.remove(activity);
             stack.add(activity);
         }
-        if (debug) {
+        if (Androidz.isDebuggable()) {
             Log.d(TAG, "onActivityResumed: " + activity);
         }
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        if (debug) {
+        if (Androidz.isDebuggable()) {
             Log.d(TAG, "onActivityPaused: " + activity);
         }
     }
@@ -91,7 +90,7 @@ public final class ActivityLifecycleManager implements ActivityLifecycleCallback
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
         startedStack.remove(activity);
-        if (debug) {
+        if (Androidz.isDebuggable()) {
             Log.d(TAG, "onActivityStopped: " + activity);
         }
     }
@@ -103,7 +102,7 @@ public final class ActivityLifecycleManager implements ActivityLifecycleCallback
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         stack.remove(activity);
-        if (debug) {
+        if (Androidz.isDebuggable()) {
             Log.d(TAG, "onActivityDestroyed: " + activity);
             printActivityStack();
         }
