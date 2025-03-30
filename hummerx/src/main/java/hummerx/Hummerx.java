@@ -9,15 +9,15 @@ import android.widget.Toast;
 
 import com.didi.hummer.annotation.Component;
 import com.didi.hummer.annotation.JsMethod;
-import com.didi.hummer.annotation.JsProperty;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component("Hummerx")
+/**
+ * 导出自定义组件
+ */
+@Component("hummerx")
 public class Hummerx {
-    @JsProperty("env")
-    public static Map<String, Object> map = new HashMap<>();
 
     @JsMethod("getAppInfo")
     public static Map<String, Object> getAppInfo(Context context) {
@@ -38,7 +38,7 @@ public class Hummerx {
 
     @JsMethod("toast")
     public static void showToast(Context context, String msg, int duration) {
-        Toast.makeText(context, msg, duration >= 2000 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, msg, duration > 0 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
     }
 
     @JsMethod("log")

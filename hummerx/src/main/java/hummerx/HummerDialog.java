@@ -9,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+
 import com.didi.hummer.HummerRender;
 import com.didi.hummer.adapter.navigator.NavPage;
 import com.didi.hummer.adapter.navigator.impl.ActivityStackManager;
@@ -20,11 +25,6 @@ import com.didi.hummer.core.engine.JSValue;
 import com.didi.hummer.lifecycle.IFullLifeCycle;
 import com.didi.hummer.render.component.view.HMBase;
 import com.didi.hummer.render.style.HummerLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 
 
 @Component("HMDialog")
@@ -132,7 +132,7 @@ public class HummerDialog extends DialogFragment implements IFullLifeCycle {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        hmContainer = view.findViewById(R.id.hummer_layout);
+        hmContainer = view.findViewById(R.id.hummer_container);
         if (navPage != null) {
             initHummer();
             renderHummer();

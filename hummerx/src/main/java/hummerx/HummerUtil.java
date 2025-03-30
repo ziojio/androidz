@@ -16,21 +16,24 @@ import com.didi.hummer.adapter.storage.impl.DefaultStorageAdapter;
 import com.didi.hummer.context.HummerContext;
 import com.didi.hummer.context.HummerRegister;
 import com.didi.hummer.core.exception.ExceptionCallback;
+import com.didi.hummer.devtools.DevToolsConfig;
 import com.didi.hummer.register.HummerRegister$$hummerx;
 
 
 public class HummerUtil {
 
+    public static final String NAMESPACE_HUMMERX = "HUMMERX";
+
     public static void initHummer(Context context) {
         HummerConfig config = new HummerConfig.Builder()
                 // 自定义namespace（用于业务线隔离，需和Hummer容器中的namespace配合使用，可选）
-                .setNamespace("HummerUtil")
+                .setNamespace(NAMESPACE_HUMMERX)
                 // JS异常回调（可选）
                 .setExceptionCallback(new ExceptionCallback() {
                     @Override
                     public void onException(Exception e) {
                         if (e != null) {
-                            Log.e("HummerUtil", "JSException", e);
+                            Log.e("Hummer", "JSException", e);
                         }
                     }
                 })
@@ -75,7 +78,18 @@ public class HummerUtil {
         Hummer.init(context, config);
     }
 
+    /**
+     * 向Hummer上下文注册自己导出的Hummer组件和回调
+     */
     public static void registerComponents(HummerContext hmContext) {
-        HummerRegister$$hummerx.init(hmContext);
+        // 使用配置注册
+        // HummerRegister$$hummerx.init(hmContext);
+    }
+
+    /**
+     * 获取开发者工具配置信息（设置自己的配置信息）
+     */
+    public static DevToolsConfig getDevToolsConfig() {
+        return null;
     }
 }
