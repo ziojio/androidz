@@ -11,8 +11,11 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.demo.database.AppRoomDatabase;
 import com.example.demo.database.TrackLog;
+import com.example.demo.util.CrashHandler;
 import com.example.demo.util.LogUtil;
 import com.example.demo.util.Timber;
 import com.tencent.mmkv.MMKV;
@@ -20,7 +23,6 @@ import com.tencent.mmkv.MMKV;
 import java.io.File;
 import java.util.Date;
 
-import androidx.annotation.NonNull;
 import androidz.util.UtilApp;
 
 public class UIApp extends Application {
@@ -32,6 +34,7 @@ public class UIApp extends Application {
         super.onCreate();
         Log.d("UIApp", "onCreate " + this);
         App = this;
+        CrashHandler.register(this);
         long start = SystemClock.elapsedRealtime();
         if (UtilApp.isDebuggable()) {
             StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder();

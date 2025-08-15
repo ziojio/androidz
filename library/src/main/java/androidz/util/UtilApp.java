@@ -8,7 +8,13 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,51 +22,49 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 
 @SuppressWarnings("unused")
 public final class UtilApp {
+    private static final String TAG = "UtilApp";
+
     private static Application application;
-    private static PackageInfo packageInfo;
-    private static final ActivityLifecycleManager activityManager = new ActivityLifecycleManager();
-    private static boolean loggable;
+    private static boolean debuggable;
 
     public static void initialize(@NonNull Context context) {
-        if (application == null) {
+        Application application;
+        if (context instanceof Application) {
+            application = (Application) context;
+        } else {
             application = (Application) context.getApplicationContext();
-            application.registerActivityLifecycleCallbacks(activityManager);
-            loggable = (application.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         }
-    }
-
-    public static boolean isLoggable() {
-        return loggable;
-    }
-
-    public static void setLoggable(boolean loggable) {
-        UtilApp.loggable = loggable;
+        UtilApp.application = application;
+        UtilApp.debuggable = (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
     }
 
     @NonNull
-    public static Context getApp() {
+    public static Application getApp() {
         if (application == null)
-            throw new IllegalStateException("Androidz not initialize");
+            throw new IllegalStateException("UtilApp not initialized");
         return application;
     }
 
-    @NonNull
-    public static ActivityLifecycleManager getActivityLifecycleManager() {
-        return activityManager;
-    }
-
     public static boolean isDebuggable() {
-        return (getApp().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        return debuggable;
     }
 
     public static CharSequence getAppName() {
         return getApp().getApplicationInfo().loadLabel(getApp().getPackageManager());
+    }
+
+    public static long getVersionCode() {
+        PackageInfo pi = getPackageInfo();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return pi.getLongVersionCode();
+        }
+        //noinspection deprecation
+        return pi.versionCode;
     }
 
     @NonNull
@@ -69,66 +73,44 @@ public final class UtilApp {
         return pi.versionName == null ? "" : pi.versionName;
     }
 
-    public static int getVersionCode() {
-        PackageInfo pi = getPackageInfo();
-        return pi.versionCode;
-    }
-
-    public static boolean isFirstInstall() {
-        PackageInfo pi = getPackageInfo();
-        return pi.firstInstallTime > 0 && pi.firstInstallTime == pi.lastUpdateTime;
-    }
-
     @NonNull
     public static PackageInfo getPackageInfo() {
-        if (packageInfo != null) {
-            return packageInfo;
-        }
-        synchronized (UtilApp.class) {
-            if (packageInfo != null) {
-                return packageInfo;
-            }
-            try {
-                packageInfo = getApp().getPackageManager().getPackageInfo(getApp().getPackageName(), 0);
-                packageInfo.applicationInfo = getApp().getApplicationInfo();
-                return packageInfo;
-            } catch (PackageManager.NameNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            return getApp().getPackageManager().getPackageInfo(getApp().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static boolean clearFiles() {
-        return FileUtil.deleteContents(getApp().getFilesDir());
+    public static boolean isMainThread() {
+        return Looper.getMainLooper().getThread() == Thread.currentThread();
     }
 
-    public static boolean clearCache() {
-        return FileUtil.deleteContents(getApp().getCacheDir());
+    public static boolean runOnUiThread(@NonNull Runnable r) {
+        return new Handler(Looper.getMainLooper()).post(r);
     }
 
-    public static boolean clearExternalFiles() {
-        File file = getApp().getExternalFilesDir(null);
-        return file == null || FileUtil.deleteContents(file);
-    }
-
-    public static boolean clearExternalCache() {
-        File file = getApp().getExternalCacheDir();
-        return file == null || FileUtil.deleteContents(file);
-    }
-
-    public static boolean clearSharedPrefs() {
-        File file = new File(getApp().getFilesDir().getParentFile(), "shared_prefs");
-        return FileUtil.deleteContents(file);
-    }
-
-    public static boolean clearDatabases() {
-        File file = new File(getApp().getFilesDir().getParentFile(), "databases");
-        return FileUtil.deleteContents(file);
-    }
-
-    public static boolean clearAppUserData() {
-        ActivityManager am = (ActivityManager) getApp().getSystemService(Context.ACTIVITY_SERVICE);
-        return am.clearApplicationUserData();
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Network network = manager.getActiveNetwork();
+                if (network != null) {
+                    NetworkCapabilities networkCapabilities = manager.getNetworkCapabilities(network);
+                    if (networkCapabilities != null) {
+                        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                                && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+                    }
+                }
+            } else {
+                NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+                if (networkInfo != null) {
+                    //noinspection deprecation
+                    return networkInfo.isConnected();
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean isMainProcess() {
@@ -156,7 +138,7 @@ public final class UtilApp {
                 return (String) packageName;
             }
         } catch (Throwable exception) {
-            Log.d(UtilApp.class.getSimpleName(), "Unable to check ActivityThread for processName", exception);
+            Log.d(TAG, "Unable to check ActivityThread for processName", exception);
         }
 
         // Fallback to the most expensive way
@@ -172,7 +154,6 @@ public final class UtilApp {
                 }
             }
         }
-
         return null;
     }
 }

@@ -21,14 +21,13 @@ public final class LoadingDialog {
     @SuppressLint("StaticFieldLeak")
     private static InternalLoadingDialog dialog;
 
-    public static void showLoading(@NonNull Activity activity) {
-        showLoading(activity, new Options());
+    public static void show(@NonNull Activity activity) {
+        show(activity, new Options());
     }
 
-    public static void showLoading(@NonNull Activity activity, @NonNull Options options) {
+    public static void show(@NonNull Activity activity, @NonNull Options options) {
         hide();
         dialog = new InternalLoadingDialog(activity, options);
-        // 主动取消情况下，清除引用
         dialog.setOnDismissListener(d -> dialog = null);
         dialog.show();
     }
@@ -44,7 +43,7 @@ public final class LoadingDialog {
     /**
      * 在显示期间禁止屏幕旋转，关闭后恢复
      */
-    public static final class InternalLoadingDialog extends AppCompatDialog {
+    private static final class InternalLoadingDialog extends AppCompatDialog {
         private final Activity activity;
         private final Options options;
         private int orientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;

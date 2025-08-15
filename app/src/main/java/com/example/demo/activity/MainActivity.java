@@ -213,7 +213,7 @@ public class MainActivity extends BaseActivity {
                 // popupWindow.showPopupWindow(100, 100);
             }
             case "dialog" -> {
-                LoadingDialog.showLoading(this);
+                LoadingDialog.show(this);
                 // new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 //     LoadingDialog.hide();
                 //     LoadingDialog.Options options = new LoadingDialog.Options();
