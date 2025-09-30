@@ -80,15 +80,15 @@ public class WebActivity extends BaseActivity {
 
     private void initWebView(WebView webview) {
         WebUtil.initWebView(webview);
-        webview.setWebViewClient(new AppWebViewClient(WebUtil.createWebViewAssetLoader(this)));
+        webview.setWebViewClient(new AppWebViewClient());
         webview.setWebChromeClient(new AppWebChromeClient());
     }
 
-    static class AppWebViewClient extends WebViewClientCompat {
+    class AppWebViewClient extends WebViewClientCompat {
         private final WebViewAssetLoader assetLoader;
 
-        public AppWebViewClient(@NonNull WebViewAssetLoader assetLoader) {
-            this.assetLoader = assetLoader;
+        public AppWebViewClient() {
+            this.assetLoader = WebUtil.createWebViewAssetLoader(getApplicationContext());
         }
 
         @Nullable

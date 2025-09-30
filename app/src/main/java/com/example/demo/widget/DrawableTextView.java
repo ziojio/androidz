@@ -24,11 +24,7 @@ public class DrawableTextView extends AppCompatTextView {
 
     public DrawableTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize(context, attrs, defStyleAttr);
-    }
-
-    private void initialize(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DrawableTextView, defStyleAttr, 0);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DrawableTextView, defStyleAttr, 0);
         drawableSize = array.getDimensionPixelSize(R.styleable.DrawableTextView_drawableSize, 0);
         array.recycle();
 

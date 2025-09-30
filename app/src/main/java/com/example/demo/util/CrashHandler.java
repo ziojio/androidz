@@ -9,6 +9,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Crash to file
@@ -30,7 +33,8 @@ public final class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        File file = new File(mApplication.getCacheDir(), "crash_" + System.currentTimeMillis() + ".txt");
+        String datetime = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US).format(new Date());
+        File file = new File(mApplication.getCacheDir(), "crash_" + datetime + ".txt");
         try (PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file)))) {
             printWriter.println("brand: " + Build.BRAND);
             printWriter.println("model: " + Build.MODEL);
