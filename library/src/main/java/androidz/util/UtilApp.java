@@ -8,16 +8,11 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,27 +22,20 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public final class UtilApp {
-    private static final String TAG = "UtilApp";
-
-    private static Application application;
+    private static Context appContext;
     private static boolean debuggable;
+    private static PackageInfo packageInfo;
 
     public static void initialize(@NonNull Context context) {
-        Application application;
-        if (context instanceof Application) {
-            application = (Application) context;
-        } else {
-            application = (Application) context.getApplicationContext();
-        }
-        UtilApp.application = application;
-        UtilApp.debuggable = (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        appContext = context.getApplicationContext();
+        debuggable = (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
     }
 
     @NonNull
-    public static Application getApp() {
-        if (application == null)
+    public static Context getContext() {
+        if (appContext == null)
             throw new IllegalStateException("UtilApp not initialized");
-        return application;
+        return appContext;
     }
 
     public static boolean isDebuggable() {
@@ -56,7 +44,7 @@ public final class UtilApp {
 
     @NonNull
     public static CharSequence getAppName() {
-        return getApp().getApplicationInfo().loadLabel(getApp().getPackageManager());
+        return getContext().getApplicationInfo().loadLabel(getContext().getPackageManager());
     }
 
     public static long getVersionCode() {
@@ -76,11 +64,15 @@ public final class UtilApp {
 
     @NonNull
     public static PackageInfo getPackageInfo() {
+        if (packageInfo != null) {
+            return packageInfo;
+        }
         try {
-            return getApp().getPackageManager().getPackageInfo(getApp().getPackageName(), 0);
+            packageInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return packageInfo;
     }
 
     public static boolean isMainThread() {
@@ -91,31 +83,9 @@ public final class UtilApp {
         return new Handler(Looper.getMainLooper()).post(r);
     }
 
-    public static boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager) getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (manager != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Network network = manager.getActiveNetwork();
-                if (network != null) {
-                    NetworkCapabilities networkCapabilities = manager.getNetworkCapabilities(network);
-                    if (networkCapabilities != null) {
-                        return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
-                    }
-                }
-            } else {
-                NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-                if (networkInfo != null) {
-                    //noinspection deprecation
-                    return networkInfo.isConnected();
-                }
-            }
-        }
-        return false;
-    }
-
     public static boolean isMainProcess() {
-        String processName = getProcessName(getApp());
-        ApplicationInfo info = getApp().getApplicationInfo();
+        String processName = getProcessName(getContext());
+        ApplicationInfo info = getContext().getApplicationInfo();
         return TextUtils.equals(processName, info.processName);
     }
 
@@ -137,8 +107,7 @@ public final class UtilApp {
             if (packageName instanceof String) {
                 return (String) packageName;
             }
-        } catch (Throwable exception) {
-            Log.d(TAG, "Unable to check ActivityThread for processName", exception);
+        } catch (Throwable ignored) {
         }
 
         // Fallback to the most expensive way

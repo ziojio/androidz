@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 public final class NetUtils {
 
     private static ConnectivityManager getConnectivityManager() {
-        return (ConnectivityManager) UtilApp.getApp().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return (ConnectivityManager) UtilApp.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     public static boolean isNetworkAvailable() {
